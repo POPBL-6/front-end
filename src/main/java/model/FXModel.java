@@ -24,17 +24,10 @@ public class FXModel implements TopicListener {
 
     PSPort middleware;
 
-    public void initModel() throws Throwable {
-        try {
-            middleware = PSPortFactory.getPort("file");
-        } catch (Throwable throwable) {
-            logger.fatal("Error when starting the middleware");
-            throw throwable;
-        }
-    }
 
     public void initModel(PSPort middleware) {
         this.middleware = middleware;
+        middleware.addTopicListener(this);
     }
 
 
@@ -68,6 +61,7 @@ public class FXModel implements TopicListener {
                 tempTopic.setSubscribed(false);
             }
         }
+        middleware.unsubscribe(topicList);
     }
 
     public void publish(Topic topic, Object value) {
@@ -81,14 +75,21 @@ public class FXModel implements TopicListener {
         } catch (IOException e) {
             logger.error("Error serializing object for topic " + topic.getTopicName());
         }
+        middleware.publish(message);
     }
+
+    public Map<String, Topic> getTopics() {
+        return topics;
+    }
+
 
     public void forceRefresh(String topicName) {
         Topic topic = topics.get(topicName);
         MessagePublication returnMessage = middleware.getLastSample(topicName);
-        if (topic != null) {
+        if (topic != null && returnMessage != null) {
             topic.setLastValueTimestamp(returnMessage.getTimestamp());
             try {
+
                 topic.setLastValue(ArrayUtils.deserialize(returnMessage.getData()));
             } catch (IOException e) {
                 logger.error("IOException deserializing object || topic: "
