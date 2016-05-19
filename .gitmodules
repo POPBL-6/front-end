@@ -1,3 +1,6 @@
 [submodule "middleware"]
 	path = middleware
 	url = https://github.com/POPBL-6/middleware.git
+[submodule "JFoenix"]
+	path = JFoenix
+	url = https://github.com/jfoenixadmin/JFoenix.git

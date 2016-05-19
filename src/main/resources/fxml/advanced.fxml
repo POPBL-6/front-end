@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSnackbar?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="tableVIewRootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="496.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdvancedTabController">
+   <children>
+      <JFXTextField fx:id="searchField" layoutX="116.0" layoutY="23.0" />
+      <JFXSnackbar fx:id="snackbar" layoutX="385.0" layoutY="438.0" prefHeight="20.0" prefWidth="31.0" />
+      <JFXTreeTableView fx:id="topicTable" currentItemsCount="10" layoutX="32.0" layoutY="68.0" prefHeight="377.0" prefWidth="791.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="39.0" AnchorPane.topAnchor="68.0" />
+      <JFXButton fx:id="createBtn" buttonType="RAISED" layoutX="382.0" layoutY="454.0" prefHeight="27.0" prefWidth="91.0" ripplerFill="#1ecf0e" text="Create" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="382.0" AnchorPane.rightAnchor="389.0" />
+      <JFXButton fx:id="subscribeBtn" buttonType="RAISED" layoutX="200.0" layoutY="454.0" prefHeight="27.0" prefWidth="91.0" ripplerFill="#123ab2" text="Subscribe" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="571.0" />
+      <JFXButton fx:id="deleteBtn" buttonType="RAISED" layoutX="570.0" layoutY="454.0" prefHeight="27.0" prefWidth="91.0" ripplerFill="#fc1010" text="Delete" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="570.0" AnchorPane.rightAnchor="201.0" />
+      <Label layoutX="54.0" layoutY="31.0" text="Search">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
