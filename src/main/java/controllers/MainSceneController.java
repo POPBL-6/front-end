@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.StackPane;
 import model.AppMain;
 import model.FXModel;
 import org.apache.logging.log4j.LogManager;
@@ -19,8 +20,12 @@ public class MainSceneController {
 
     private static final Logger logger = LogManager.getLogger(MainSceneController.class);
 
-    FXModel model;
-    AdvancedTabController advancedTabController;
+    private FXModel model;
+    private AdvancedTabController advancedTabController;
+
+    @FXML
+    StackPane mainRootNode;
+
     @FXML
     private Tab floor1Tab;
 
@@ -48,19 +53,22 @@ public class MainSceneController {
     }
 
     public void initFloor1Tab() {
-
+        
     }
 
     public void initFloor2Tab() {
 
     }
 
-    public void initAdvancedViewTab() {
-        FXMLLoader loader = new FXMLLoader();
+    private void initAdvancedViewTab() {
+        FXMLLoader loader = new FXMLLoader(AppMain.class.getResource("/fxml/advanced.fxml"));
         try {
-            Node advancedTabNode = loader.load(AppMain.class.getResource("/fxml/advanced.fxml"));
+            Node advancedTabNode = loader.load();
+            advancedTabNode.autosize();
             advancedTabGroup.getChildren().add(advancedTabNode);
             advancedTabController = loader.getController();
+            advancedTabController.setMainRootNode(mainRootNode);
+            advancedTabController.initController(model);
         } catch (IOException e) {
             logger.fatal("Error when loading advanced view FXML file");
         }

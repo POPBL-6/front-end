@@ -1,28 +1,28 @@
 package model;
 
 import api.PSPort;
-import api.PSPortFactory;
 import api.TopicListener;
 import data.MessagePublication;
 import data.MessagePublish;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import utils.ArrayUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Gorka Olalde on 18/5/16.
  */
 public class FXModel implements TopicListener {
 
-    static final Logger logger = LogManager.getLogger(FXModel.class);
+    private static final Logger logger = LogManager.getLogger(FXModel.class);
 
-    Map<String, Topic> topics = new HashMap<>();
+    private final ObservableMap<String, Topic> topics = FXCollections.observableHashMap();
 
-    PSPort middleware;
+    private PSPort middleware;
 
 
     public void initModel(PSPort middleware) {
@@ -53,6 +53,18 @@ public class FXModel implements TopicListener {
         middleware.subscribe(topicList);
     }
 
+    public void subscribe(List<Topic> topicList) {
+        Vector<String> topicNames = new Vector<>();
+        topicList.forEach(t -> {
+            if (!topics.containsKey(t.getTopicName())) {
+                topics.put(t.getTopicName(), t);
+            }
+            topicNames.add(t.getTopicName());
+            t.setSubscribed(true);
+        });
+        middleware.subscribe((String[])topicNames.toArray());
+    }
+
     public void unsubscribe(String... topicList) {
         Topic tempTopic;
         for (String topicName : topicList) {
@@ -62,6 +74,18 @@ public class FXModel implements TopicListener {
             }
         }
         middleware.unsubscribe(topicList);
+    }
+
+
+    public void unsubscribe(List<Topic> topicList) {
+        Vector<String> topicNames = new Vector<>();
+        topicList.forEach(t -> {
+            if(topics.containsKey(t.getTopicName())) {
+                topicNames.add(t.getTopicName());
+                t.setSubscribed(false);
+            }
+        });
+        middleware.unsubscribe((String[]) topicNames.toArray());
     }
 
     public void publish(Topic topic, Object value) {
@@ -78,7 +102,11 @@ public class FXModel implements TopicListener {
         middleware.publish(message);
     }
 
-    public Map<String, Topic> getTopics() {
+    public void publish(Topic topic) {
+        publish(topic, topic.getLastValue());
+    }
+
+    public ObservableMap<String, Topic> getTopics() {
         return topics;
     }
 
@@ -99,6 +127,10 @@ public class FXModel implements TopicListener {
                         + returnMessage.getTopic() + " || sender: " + returnMessage.getSender());
             }
         }
+    }
+
+    public void forceRefresh(Topic topic) {
+        forceRefresh(topic.getTopicName());
     }
 
     @Override

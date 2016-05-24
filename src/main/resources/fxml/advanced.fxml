@@ -1,25 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXDialog?>
 <?import com.jfoenix.controls.JFXSnackbar?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="tableVIewRootPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="496.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AdvancedTabController">
-   <children>
-      <JFXTextField fx:id="searchField" layoutX="116.0" layoutY="23.0" />
-      <JFXSnackbar fx:id="snackbar" layoutX="385.0" layoutY="438.0" prefHeight="20.0" prefWidth="31.0" />
-      <JFXTreeTableView fx:id="topicTable" currentItemsCount="10" layoutX="32.0" layoutY="68.0" prefHeight="377.0" prefWidth="791.0" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="39.0" AnchorPane.topAnchor="68.0" />
-      <JFXButton fx:id="createBtn" buttonType="RAISED" layoutX="382.0" layoutY="454.0" prefHeight="27.0" prefWidth="91.0" ripplerFill="#1ecf0e" text="Create" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="382.0" AnchorPane.rightAnchor="389.0" />
-      <JFXButton fx:id="subscribeBtn" buttonType="RAISED" layoutX="200.0" layoutY="454.0" prefHeight="27.0" prefWidth="91.0" ripplerFill="#123ab2" text="Subscribe" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="571.0" />
-      <JFXButton fx:id="deleteBtn" buttonType="RAISED" layoutX="570.0" layoutY="454.0" prefHeight="27.0" prefWidth="91.0" ripplerFill="#fc1010" text="Delete" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="570.0" AnchorPane.rightAnchor="201.0" />
-      <Label layoutX="54.0" layoutY="31.0" text="Search">
-         <font>
-            <Font name="Arial Black" size="13.0" />
-         </font>
-      </Label>
-   </children>
-</AnchorPane>
+
+<StackPane fx:id="rootNode" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="controllers.AdvancedTabController">
+    <AnchorPane id="tableVIewRootPane" maxHeight="+Infinity" maxWidth="+Infinity" minHeight="-Infinity"
+                minWidth="-Infinity" prefHeight="496.0" prefWidth="862.0">
+        <children>
+          <JFXTextField fx:id="searchField" layoutX="116.0" layoutY="23.0"/>
+          <JFXSnackbar fx:id="snackbar" layoutX="385.0" layoutY="438.0" prefHeight="20.0" prefWidth="31.0"/>
+          <JFXButton fx:id="createBtn" buttonType="RAISED" layoutX="431.0" layoutY="454.0" onAction="#createNewTopic"
+                     prefHeight="27.0" prefWidth="91.0" ripplerFill="#1ecf0e" text="Create"
+                     AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="431.0" AnchorPane.rightAnchor="340.0"/>
+          <JFXButton fx:id="subscribeBtn" buttonType="RAISED" layoutX="154.0" layoutY="454.0"
+                     onAction="#subscribeToSelection" prefHeight="27.0" prefWidth="91.0" ripplerFill="#123ab2"
+                     text="Subscribe" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="154.0"
+                     AnchorPane.rightAnchor="617.0"/>
+          <JFXButton fx:id="unSubscribeBtn" buttonType="RAISED" layoutX="283.0" layoutY="454.0"
+                     onAction="#unSubscribeFromSelection" prefHeight="27.0" prefWidth="100.0" ripplerFill="#123ab2"
+                     text="Unsubscribe" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="283.0"
+                     AnchorPane.rightAnchor="479.0"/>
+          <JFXButton fx:id="deleteBtn" buttonType="RAISED" layoutX="570.0" layoutY="454.0"
+                     onAction="#deleteSelectedTopics" prefHeight="27.0" prefWidth="91.0" ripplerFill="#fc1010"
+                     text="Delete" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="570.0"
+                     AnchorPane.rightAnchor="201.0"/>
+          <Label layoutX="54.0" layoutY="31.0" text="Search">
+              <font>
+                  <Font name="Arial Black" size="13.0"/>
+              </font>
+          </Label>
+          <JFXDialog fx:id="createDialog"/>
+          <TableView fx:id="topicTable" layoutX="20.0" layoutY="73.0" prefHeight="372.0" prefWidth="812.0">
+              <columns>
+                  <TableColumn fx:id="topicNameColumn" prefWidth="116.0" text="Topic Name"/>
+                  <TableColumn fx:id="subscribedColumn" prefWidth="96.0" text="Subscribed?"/>
+                  <TableColumn fx:id="timestampColumn" minWidth="0.0" prefWidth="154.0" text="Timestamp"/>
+                  <TableColumn fx:id="dataTypeColumn" prefWidth="143.0" text="Data Type"/>
+                  <TableColumn fx:id="valueColumn" prefWidth="302.0" text="Value"/>
+              </columns>
+          </TableView>
+        </children>
+    </AnchorPane>
+</StackPane>

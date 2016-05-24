@@ -1,19 +1,16 @@
 package model;
 
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
 /**
  * Created by Gorka Olalde on 18/5/16.
  */
-public class Topic {
+public class Topic{
 
-    SimpleStringProperty topicName;
-    SimpleBooleanProperty subscribed;
-    SimpleLongProperty lastValueTimestamp;
-    SimpleObjectProperty<Object> lastValue;
+    private final SimpleStringProperty topicName;
+    private final SimpleBooleanProperty subscribed;
+    private final SimpleLongProperty lastValueTimestamp;
+    private final SimpleObjectProperty<Object> lastValue;
 
     public Topic() {
         topicName = new SimpleStringProperty();
@@ -21,6 +18,8 @@ public class Topic {
         lastValueTimestamp = new SimpleLongProperty();
         lastValue = new SimpleObjectProperty<>();
     }
+
+
 
     public Topic(String name) {
         this();
@@ -31,19 +30,19 @@ public class Topic {
         this(name);
         this.subscribed.set(subscribed);
     }
-    public final SimpleStringProperty getTopicNameProperty() {
+    public final SimpleStringProperty topicNameProperty() {
         return topicName;
     }
 
-    public final SimpleBooleanProperty getIsSubscribedProperty() {
+    public final SimpleBooleanProperty isSubscribedProperty() {
         return subscribed;
     }
 
-    public final SimpleLongProperty getLastValueTimestampProperty() {
+    public final SimpleLongProperty lastValueTimestampProperty() {
         return lastValueTimestamp;
     }
 
-    public final SimpleObjectProperty<Object> getLastValueProperty() {
+    public final SimpleObjectProperty<Object> lastValueProperty() {
         return lastValue;
     }
 
@@ -79,6 +78,7 @@ public class Topic {
     public void setLastValue(Object value) {
         lastValue.set(value);
     }
+
 
 
 

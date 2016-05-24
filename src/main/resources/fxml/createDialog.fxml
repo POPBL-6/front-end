@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.validation.RequiredFieldValidator?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<JFXDialog fx:id="dialog" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreateDialogController" >
+         <children>
+            <JFXDialogLayout maxHeight="-Infinity" maxWidth="-Infinity" minHeight="250" minWidth="450" prefHeight="250.0" prefWidth="450.0">
+               <heading>
+                  <Label>Create a new Topic</Label>
+               </heading>
+               <body>
+                  <VBox prefHeight="200.0" prefWidth="379.0">
+                     <Label text="Name: "/>
+                     <JFXTextField fx:id="topicNameField"/>
+                     <RequiredFieldValidator fx:id="nameValidator"/>
+                     <Label text="Data type:"/>
+                     <JFXComboBox fx:id="dataTypeCombo"/>
+                     <Label text="Value:"/>
+                     <JFXTextField fx:id="valueField"/>
+                     <RequiredFieldValidator fx:id="valueValidator"/>
+                  </VBox>
+               </body>
+                  <actions>
+                     <JFXButton fx:id="saveBtn" buttonType="RAISED" layoutX="306.0" layoutY="187.0" onAction="#saveTopic" ripplerFill="#271aab" text="Save" />
+                  </actions>
+            </JFXDialogLayout>
+         </children>
+      </JFXDialog>
