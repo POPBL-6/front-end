@@ -81,22 +81,22 @@ public class AdvancedTabController {
 
 
 
-    private void setModel(FXModel model) {
+    protected void setModel(FXModel model) {
         this.model = model;
     }
 
-    void setMainRootNode(StackPane rootNode) {
+    protected void setMainRootNode(StackPane rootNode) {
         this.mainRootNode = rootNode;
     }
 
-    private void initController() {
+    protected void initController() {
         initTableList();
         initTable();
         initColumns();
         initCellRenderers();
     }
 
-    void initController(FXModel model) {
+    protected void initController(FXModel model) {
         setModel(model);
         initController();
     }
@@ -168,7 +168,7 @@ public class AdvancedTabController {
     }
 
     @FXML
-    void subscribeToSelection(ActionEvent event) {
+    private void subscribeToSelection(ActionEvent event) {
         ArrayList<Topic> subscribeList = selectedItems.stream()
                 .filter(topic -> !topic.isSubscribed())
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -176,7 +176,7 @@ public class AdvancedTabController {
     }
 
     @FXML
-    void unSubscribeFromSelection(ActionEvent event) {
+    private void unSubscribeFromSelection(ActionEvent event) {
         ArrayList<Topic> unSubscribeList = selectedItems.stream()
                 .filter(topic -> topic.isSubscribed())
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -184,7 +184,7 @@ public class AdvancedTabController {
     }
 
     @FXML
-    void createNewTopic(ActionEvent event) throws IOException {
+    private void createNewTopic(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(AppMain.class.getResource("/fxml/createDialog.fxml"));
         try {
             JFXDialog dialog = loader.load();
@@ -201,7 +201,7 @@ public class AdvancedTabController {
     }
 
     @FXML
-    void deleteSelectedTopics(ActionEvent event) {
+    private void deleteSelectedTopics(ActionEvent event) {
         //TODO:Add confirm dialog and action to delete topics.
     }
 }

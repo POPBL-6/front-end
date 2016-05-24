@@ -23,10 +23,10 @@ public class CreateDialogController {
     private StackPane mainRootNode;
 
     @FXML
-    StackPane rootNode;
+    private StackPane rootNode;
 
     @FXML
-    JFXDialog dialog;
+    private JFXDialog dialog;
 
     @FXML
     private JFXTextField topicNameField;
@@ -47,13 +47,13 @@ public class CreateDialogController {
     private JFXButton saveBtn;
 
     @FXML
-    void saveTopic(ActionEvent event) {
+    private void saveTopic(ActionEvent event) {
         Topic topic = new Topic();
         String topicName = topicNameField.getText();
         String dataType = dataTypeCombo.getSelectionModel().getSelectedItem();
         String value = valueField.getText();
 
-        if (!topicName.equals("") && !value.equals("")) {
+        if (!"".equals(topicName) && !"".equals(value)) {
             topic.setTopicName(topicName);
             switch (dataType) {
                 case "Integer":
@@ -65,6 +65,8 @@ public class CreateDialogController {
                 case "String":
                     topic.setLastValue(value);
                     break;
+                default:
+                    topic.setLastValue(value);
             }
             model.publish(topic);
         }
@@ -72,11 +74,11 @@ public class CreateDialogController {
     }
 
 
-    void setModel(FXModel model) {
+    protected void setModel(FXModel model) {
         this.model = model;
     }
 
-    void initController() {
+    protected void initController() {
         dataTypeCombo.getItems().addAll(
                 "Integer"
                 , "String"
@@ -102,11 +104,11 @@ public class CreateDialogController {
         });
     }
 
-    void setRootNode(StackPane node) {
+    protected void setRootNode(StackPane node) {
         mainRootNode = node;
     }
 
-    void showDialog() {
+    protected void showDialog() {
         dialog.show(mainRootNode);
     }
 

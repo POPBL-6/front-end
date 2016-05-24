@@ -52,12 +52,12 @@ public class MainSceneController {
         initAdvancedViewTab();
     }
 
-    public void initFloor1Tab() {
-        
+    private void initFloor1Tab() {
+        //TODO: Add floor controller and init method.
     }
 
-    public void initFloor2Tab() {
-
+    private void initFloor2Tab() {
+        //TODO: Add floor controller and init method.
     }
 
     private void initAdvancedViewTab() {

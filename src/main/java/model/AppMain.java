@@ -14,7 +14,7 @@ public class AppMain extends Application {
 
     private final Logger logger = LogManager.getRootLogger();
     private FXModel model;
-    PSPort middleware;
+    private PSPort middleware;
 
     @Override
     public void start(Stage primaryStage) throws Exception{

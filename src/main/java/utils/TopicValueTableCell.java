@@ -48,7 +48,7 @@ class TopicValueTableCell extends TableCell<Topic, Object>{
         comboBox.setCellFactory(callback -> new ListCell<String>() {
              @Override
              protected void updateItem(String item, boolean empty) {
-                 if (item.equals("On")) {
+                 if ("On".equals(item)) {
                      setStyle("-fx-text-fill: #8bff95");
                  } else {
                      setStyle("-fx-text-fill: #ff4036");
