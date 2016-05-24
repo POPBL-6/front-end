@@ -18,11 +18,7 @@ public class AppMain extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        try {
-            initModel();
-        } catch (Throwable throwable) {
-            logger.fatal("Could not initialize model", throwable);
-        }
+        initModel();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
         Parent root = loader.load();
         MainSceneController mainSceneController = loader.getController();

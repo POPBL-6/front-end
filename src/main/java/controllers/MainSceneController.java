@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Tab;
 import javafx.scene.layout.StackPane;
 import model.AppMain;
 import model.FXModel;
