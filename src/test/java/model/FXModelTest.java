@@ -12,8 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import utils.ArrayUtils;
 
-import java.io.IOException;
-
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
@@ -23,19 +21,15 @@ import static org.junit.Assert.*;
 public class FXModelTest {
 
     @TestSubject
-    FXModel model;
+    private FXModel model;
 
-    @Mock PSPort middlewareMock;
+    @Mock
+    private PSPort middlewareMock;
 
     @Before
     public void setUp() throws Exception {
         middlewareMock = createMock(PSPort.class);
         model = new FXModel();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
     }
 
     @Test
@@ -122,6 +116,7 @@ public class FXModelTest {
         model.initModel(middlewareMock);
         model.unsubscribe(topicName);
         verify(middlewareMock);
+        assertTrue(model.getTopics().size() == 0);
     }
 
     @Test
@@ -151,15 +146,15 @@ public class FXModelTest {
         String topicName = "topic";
         Topic topic = new Topic(topicName);
         Integer object = null;
-        Capture<MessagePublish> publicationCapture = newCapture();
         //record
         middlewareMock.addTopicListener(model);
-        middlewareMock.publish(EasyMock.anyObject());
+        middlewareMock.publish(anyObject());
         replay(middlewareMock);
         //test
         model.initModel(middlewareMock);
         model.publish(topic, object);
         verify(middlewareMock);
+        assertTrue(model.getTopics().size() == 0);
     }
 
     @Test

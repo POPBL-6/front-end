@@ -24,22 +24,8 @@ public class MainSceneController {
     private AdvancedTabController advancedTabController;
 
     @FXML
-    StackPane mainRootNode;
+    private StackPane mainRootNode;
 
-    @FXML
-    private Tab floor1Tab;
-
-    @FXML
-    private Group floor1Group;
-
-    @FXML
-    private Tab floor2Tab;
-
-    @FXML
-    private Group floor2Group;
-
-    @FXML
-    private Tab advancedTab;
 
     @FXML
     private Group advancedTabGroup;

@@ -41,25 +41,10 @@ public class AdvancedTabController {
 
 
     @FXML
-    private StackPane rootNode;
-
-    @FXML
-    private JFXTextField searchField;
-
-    @FXML
-    private JFXSnackbar snackbar;
-
-    @FXML
-    private JFXButton createBtn;
-
-    @FXML
     private JFXButton subscribeBtn;
 
     @FXML
     private JFXButton unSubscribeBtn;
-
-    @FXML
-    private JFXButton deleteBtn;
 
     @FXML
     private TableView<Topic> topicTable;

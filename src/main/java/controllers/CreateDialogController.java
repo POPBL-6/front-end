@@ -23,9 +23,6 @@ public class CreateDialogController {
     private StackPane mainRootNode;
 
     @FXML
-    private StackPane rootNode;
-
-    @FXML
     private JFXDialog dialog;
 
     @FXML
@@ -42,9 +39,6 @@ public class CreateDialogController {
 
     @FXML
     private RequiredFieldValidator valueValidator;
-
-    @FXML
-    private JFXButton saveBtn;
 
     @FXML
     private void saveTopic(ActionEvent event) {
@@ -67,6 +61,7 @@ public class CreateDialogController {
                     break;
                 default:
                     topic.setLastValue(value);
+                    break;
             }
             model.publish(topic);
         }
