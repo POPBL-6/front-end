@@ -20,11 +20,15 @@ repositories {
 	maven {
 		url "https://oss.sonatype.org/content/groups/public"
 	}
+    jcenter()
 }
 
 dependencies {
 	compile project(':middleware')
 	compile 'com.jfoenix:jfoenix:0.0.0-SNAPSHOT'
+	compile 'org.controlsfx:controlsfx:8.40.10'
+	compile 'de.jensd:fontawesomefx-commons:8.11'
+	compile 'de.jensd:fontawesomefx-fontawesome:4.6.1-2'
 	compile 'org.apache.logging.log4j:log4j-core:2.5'
 	compile 'org.apache.logging.log4j:log4j-api:2.5'
 	compile group: 'com.logentries', name: 'logentries-appender', version: '1.1.32'

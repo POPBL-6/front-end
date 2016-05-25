@@ -25,7 +25,7 @@ public class AppMain extends Application {
         mainSceneController.setModel(model);
         mainSceneController.initTabs();
         primaryStage.setTitle("POPBL6 Middleware Parking Demo App");
-        primaryStage.setScene(new Scene(root, 890, 555));
+        primaryStage.setScene(new Scene(root, 1366, 768));
         primaryStage.show();
     }
 

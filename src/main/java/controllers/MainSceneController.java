@@ -2,8 +2,7 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
-import javafx.scene.Node;
+import javafx.scene.control.Tab;
 import javafx.scene.layout.StackPane;
 import model.AppMain;
 import model.FXModel;
@@ -25,9 +24,9 @@ public class MainSceneController {
     @FXML
     private StackPane mainRootNode;
 
-
     @FXML
-    private Group advancedTabGroup;
+    private Tab advancedTab;
+
 
     public void setModel(FXModel model) {
         this.model = model;
@@ -48,9 +47,7 @@ public class MainSceneController {
     private void initAdvancedViewTab() {
         FXMLLoader loader = new FXMLLoader(AppMain.class.getResource("/fxml/advanced.fxml"));
         try {
-            Node advancedTabNode = loader.load();
-            advancedTabNode.autosize();
-            advancedTabGroup.getChildren().add(advancedTabNode);
+            advancedTab.setContent(loader.load());
             advancedTabController = loader.getController();
             advancedTabController.setMainRootNode(mainRootNode);
             advancedTabController.initController(model);
