@@ -49,7 +49,6 @@ public class MainSceneController {
         try {
             advancedTab.setContent(loader.load());
             advancedTabController = loader.getController();
-            advancedTabController.setMainRootNode(mainRootNode);
             advancedTabController.initController(model);
         } catch (IOException e) {
             logger.fatal("Error when loading advanced view FXML file");
