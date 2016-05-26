@@ -1,6 +1,5 @@
 package model;
 
-import api.PSPort;
 import controllers.MainSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,10 +12,12 @@ import org.apache.logging.log4j.Logger;
 public class AppMain extends Application {
 
     private final Logger logger = LogManager.getRootLogger();
-    private FXModel model;
-    private PSPort middleware;
-    public static Stage stage;
+    private static final int HSIZE = 1366;
+    private static final int VSIZE = 768;
 
+    private FXModel model;
+    private static Stage stage;
+    private Scene scene;
     public static Stage getStage() {
         return stage;
     }
@@ -31,8 +32,11 @@ public class AppMain extends Application {
         mainSceneController.setModel(model);
         mainSceneController.initTabs();
         primaryStage.setTitle("POPBL6 Middleware Parking Demo App");
-        primaryStage.setScene(new Scene(root, 1366, 768));
+        scene = new Scene(root, HSIZE, VSIZE);
+        scene.getStylesheets().add("/css/mainCss.css");
+        primaryStage.setScene(scene);
         primaryStage.show();
+        logger.info("Application started");
     }
 
 

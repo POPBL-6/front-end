@@ -40,7 +40,7 @@ public class FXModel implements TopicListener {
         return retVal;
     }
 
-    public void subscribe(String... topicList) {
+    public synchronized void subscribe(String... topicList) {
         Topic tempTopic;
         for (String topicName : topicList) {
             if (topics.containsKey(topicName)) {
@@ -53,8 +53,9 @@ public class FXModel implements TopicListener {
         middleware.subscribe(topicList);
     }
 
-    public void subscribe(List<Topic> topicList) {
-        Vector<String> topicNames = new Vector<>();
+    public synchronized void subscribe(List<Topic> topicList) {
+        ArrayList<String> topicNames = new ArrayList<>();
+        String[] params;
         topicList.forEach(t -> {
             if (!topics.containsKey(t.getTopicName())) {
                 topics.put(t.getTopicName(), t);
@@ -62,10 +63,12 @@ public class FXModel implements TopicListener {
             topicNames.add(t.getTopicName());
             t.setSubscribed(true);
         });
-        middleware.subscribe((String[])topicNames.toArray());
+        params = new String[topicNames.size()];
+        params = topicNames.toArray(params);
+        middleware.subscribe(params);
     }
 
-    public void unsubscribe(String... topicList) {
+    public synchronized void unsubscribe(String... topicList) {
         Topic tempTopic;
         for (String topicName : topicList) {
             if (topics.containsKey(topicName)) {
@@ -77,8 +80,8 @@ public class FXModel implements TopicListener {
     }
 
 
-    public void unsubscribe(List<Topic> topicList) {
-        Vector<String> topicNames = new Vector<>();
+    public synchronized void unsubscribe(List<Topic> topicList) {
+        ArrayList<String> topicNames = new ArrayList<>();
         topicList.forEach(t -> {
             if(topics.containsKey(t.getTopicName())) {
                 topicNames.add(t.getTopicName());
@@ -88,7 +91,7 @@ public class FXModel implements TopicListener {
         middleware.unsubscribe((String[]) topicNames.toArray());
     }
 
-    public void publish(Topic topic, Object value) {
+    public synchronized void publish(Topic topic, Object value) {
         //TODO: Create changeListener for the values to publish them automatically when those are modified.
         MessagePublish message = new MessagePublish();
         topic.setLastValueTimestamp(System.currentTimeMillis());
@@ -100,9 +103,12 @@ public class FXModel implements TopicListener {
             logger.error("Error serializing object for topic " + topic.getTopicName());
         }
         middleware.publish(message);
+        if(topics.get(topic) == null) {
+            topics.put(topic.getTopicName(), topic);
+        }
     }
 
-    public void publish(Topic topic) {
+    public synchronized void publish(Topic topic) {
         publish(topic, topic.getLastValue());
     }
 
@@ -111,7 +117,7 @@ public class FXModel implements TopicListener {
     }
 
 
-    public void forceRefresh(String topicName) {
+    public synchronized void forceRefresh(String topicName) {
         Topic topic = topics.get(topicName);
         MessagePublication returnMessage = middleware.getLastSample(topicName);
         if (topic != null && returnMessage != null) {
