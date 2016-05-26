@@ -8,14 +8,15 @@ import javafx.scene.control.TextInputControl;
  * Created by Gorka Olalde on 25/5/16.
  */
 @DefaultProperty(value="icon")
-public class ValidDataValidator extends ValidatorBase {
+public class ValidTypeValidator extends ValidatorBase {
 
-    String dataType = "String";
+    private String dataType = "String";
 
     @Override
     protected void eval() {
-        if(srcControl.get() instanceof TextInputControl)
+        if(srcControl.get() instanceof TextInputControl) {
             evalTextInputField();
+        }
     }
 
     /**

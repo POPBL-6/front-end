@@ -13,6 +13,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.AppMain;
 import model.Topic;
 import org.apache.logging.log4j.LogManager;
@@ -29,23 +30,28 @@ public class CreateTopicDialog extends Dialog<Topic> {
     private static final Logger logger = LogManager.getLogger(CreateTopicDialog.class);
 
     @FXML
+    private
     JFXTextField topicNameField;
 
     @FXML
+    private
     RequiredFieldValidator nameValidator;
 
     @FXML
+    private
     JFXComboBox<String> dataTypeCombo;
 
     @FXML
+    private
     JFXTextField valueField;
 
     @FXML
-    ValidDataValidator valueValidator;
+    private
+    ValidTypeValidator valueValidator;
 
-    String dataType = "String";
+    private String dataType = "String";
 
-    JFXButton saveBtn;
+    private JFXButton saveBtn;
 
     public CreateTopicDialog(Stage stage) {
         super();
@@ -67,6 +73,7 @@ public class CreateTopicDialog extends Dialog<Topic> {
      */
     private void initButtons() {
         getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
+        JFXButton cancelBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.CANCEL);
         saveBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.OK);
     }
 
@@ -76,7 +83,9 @@ public class CreateTopicDialog extends Dialog<Topic> {
      */
 
     private void setDialogPane() {
-        dialogPaneProperty().set(new JFXDialogPane());
+        JFXDialogPane dialogPane = new JFXDialogPane();
+        dialogPane.setDialog(this);
+        dialogPaneProperty().set(dialogPane);
     }
 
     /**
@@ -101,7 +110,7 @@ public class CreateTopicDialog extends Dialog<Topic> {
      */
     private void initComboBox() {
         dataTypeCombo.getItems().setAll("String", "Integer", "Double", "Boolean");
-        dataTypeCombo.selectionModelProperty().addListener(InvalidationListener -> {
+        dataTypeCombo.getSelectionModel().selectedItemProperty().addListener((o, oldVal, newVal) -> {
             dataType = dataTypeCombo.getSelectionModel().getSelectedItem();
         });
         dataTypeCombo.getSelectionModel().select(0);
@@ -130,10 +139,10 @@ public class CreateTopicDialog extends Dialog<Topic> {
             }
         });
         valueValidator.hasErrorsProperty().addListener((o, oldVal, newVal) -> {
-            if (!newVal) {
-                if (!nameValidator.getHasErrors()) {
-                    saveBtn.setDisable(true);
-                }
+            if (newVal || nameValidator.getHasErrors()) {
+                saveBtn.setDisable(true);
+            } else {
+                saveBtn.setDisable(false);
             }
         });
     }
@@ -142,10 +151,14 @@ public class CreateTopicDialog extends Dialog<Topic> {
      * Sets the actions for the dialog buttons.
      */
     private void setButtonActionHandlers() {
-        setResultConverter(button -> {
+        saveBtn.onActionProperty().addListener(e -> {
+            System.out.println("Entra");
+        });
+        setResultConverter( button -> {
             Topic topic = new Topic();
             if (button == ButtonType.OK) {
                 topic.setTopicName(topicNameField.getText());
+                topic.setLastValueTimestamp(System.currentTimeMillis());
                 topic.setLastValue(createObjectByType(dataType, valueField.getText()));
                 return topic;
             }
@@ -182,5 +195,20 @@ public class CreateTopicDialog extends Dialog<Topic> {
         return outputObject;
     }
 
+
+    void impl_setResultAndClose(ButtonType cmd, boolean close) {
+        Callback<ButtonType, Topic> resultConverter = getResultConverter();
+
+        Topic priorResultValue = getResult();
+        Topic newResultValue = null;
+
+        if (resultConverter != null) {
+            newResultValue = resultConverter.call(cmd);
+        }
+        setResult(newResultValue);
+        if (close && priorResultValue == newResultValue) {
+            close();
+        }
+    }
 }
 
