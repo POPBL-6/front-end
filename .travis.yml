@@ -21,5 +21,3 @@ addons:
     build_command_prepend: "gradle clean"
     build_command:   "gradle -x test build"
     branch_pattern: coverity_scan
-before_install:
- - cd $HOME
