@@ -1,4 +1,5 @@
 language: java
+sudo: false
 jdk:
 - oraclejdk8
 env:
@@ -8,6 +9,9 @@ env:
    - secure: "Ln4/Uh5LYaL6TXY6+CLClEtpAhvT8mZzQA6xHdnaneexb5DoAgX+vnNBO0Rbe+vCgPovO7t+ASUhTnXvwT3aviG34ZIynXq5e5bPaeXWRIk0NibQXF8WpTsl6n1HyHDarCVvAnoSqOmIDqczSA7dJU35uGqjJEtxq7xFwhjNUcM+CFKuxqkY821Ylsw5jKt3UKpXt+x5K09rbwSdshUIFyHbIpk55x2r2svLPfbu4i7cG3fbh7j5XYiYGUucJgo1FpqeK+hCgHyN8VJU6J+8vhc3GHYwAqmASVHZY45WvDl0CIevNdCZRhH6P7eL1e+4/QX45DioZBSeIPIS5YjK+6Bl5vrheMXk7Hu5kmucwekwBlN4VyGvEAIEjSKcpOLgC/Q+frGViPj7gHvKAsrgLQAQKSQagDOCaqyLcwGbZIpowQD+tLzM2XvYBBsC7MpwyFxEZuDteGQPq9jzS60nxkrJA+mIfTT2Y8TZ/oJLkkvDODACxIVt2Ed2FVstS88RQmGNTyTaD7mhMqiAUG9OTaCNdt5vk7YmljdFwvtCQUHwDprQEF7h462ZDyIrURT6HV8NtAvDUQQNXBQdW/orXhfjOsb7tpBQkLSQnLGbIvwYvhr/YB3iRVmBpOdLW9DJ9KJneufi6vDcaE59xay4+Q9pIZJUm6Nlh73d5YI2aa0="
 
 addons:
+  apt:
+    packages:
+      - oracle-java8-installer
   coverity_scan:
     project:
       name: "POPBL-6/front-end"
@@ -17,3 +21,5 @@ addons:
     build_command_prepend: "gradle clean"
     build_command:   "gradle -x test build"
     branch_pattern: coverity_scan
+before_install:
+ - cd $HOME
