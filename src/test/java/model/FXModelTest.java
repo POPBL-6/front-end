@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import utils.ArrayUtils;
 
+import java.util.ArrayList;
+
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
@@ -85,6 +87,30 @@ public class FXModelTest {
     }
 
     @Test
+    public void subscribeTopicList() {
+        ArrayList<Topic> topics = new ArrayList();
+        Topic testTopic = new Topic();
+        Topic testTopic2 = new Topic();
+        String topicName = "topic";
+        String topicName2 = "topic2";
+        testTopic.setTopicName(topicName);
+        testTopic2.setTopicName(topicName2);
+        topics.add(testTopic);
+        topics.add(testTopic2);
+        //record
+        middlewareMock.addTopicListener(model);
+        middlewareMock.subscribe(topicName, topicName2);
+        expectLastCall();
+        replay(middlewareMock);
+        //test
+        model.initModel(middlewareMock);
+        model.subscribe(topics);
+        verify();
+        assertTrue(testTopic.isSubscribed());
+        assertTrue(testTopic2.isSubscribed());
+    }
+
+    @Test
     public void unsubscribe() throws Exception {
         String topicName = "topic1";
         boolean subscribed = true;
@@ -152,7 +178,7 @@ public class FXModelTest {
         model.initModel(middlewareMock);
         model.publish(topic, object);
         verify(middlewareMock);
-        assertTrue(model.getTopics().size() == 0);
+        assertTrue(model.getTopics().size() == 1);
     }
 
     @Test
