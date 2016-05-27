@@ -1,19 +1,20 @@
 package controllers;
 
+import controllers.tableUtils.DataTypeTableCell;
+import controllers.tableUtils.SubscribedTableCell;
+import controllers.tableUtils.TimestampTableCell;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.*;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.Topic;
 
-import java.text.DateFormat;
-
 
 /**
- * Created by Gorka Olalde on 26/5/16.
+ * Class for managing and creating the topic table.
+ * @author Gorka Olalde
  */
 class TopicTableManager {
 
@@ -107,52 +108,9 @@ class TopicTableManager {
      * Initializes the cell renderers of the table.
      */
     private void initCellRenderers() {
-        dataTypeColumn.setCellFactory(column -> new TableCell<Topic, Object>() {
-            @Override
-            protected void updateItem(Object item, boolean empty) {
-                super.updateItem(item, empty);
-                if(item == null || empty) {
-                    setText("");
-                } else {
-                    if (item instanceof String) {
-                        setText("String");
-                    } else if (item instanceof Integer) {
-                        setText("Integer");
-                    } else if (item instanceof Boolean) {
-                        setText("Boolean");
-                    } else if (item instanceof Double) {
-                        setText("Double");
-                    } else {
-                        setText("Unknown class");
-                    }
-                }
-            }});
-        subscribedColumn.setCellFactory(column -> new TableCell<Topic, Boolean>() {
-            @Override
-            protected void updateItem(Boolean item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty) {
-                    setText("");
-                } else {
-                    if(item) {
-                        setText("Subscribed");
-                    } else {
-                        setText("Unsubscribed");
-                    }
-                }
-            }
-        });
-        timestampColumn.setCellFactory(column -> new TableCell<Topic, Long>() {
-            @Override
-            protected void updateItem(Long item, boolean empty) {
-                super.updateItem(item, empty);
-                if(item == null || empty) {
-                    setText("");
-                } else {
-                    setText(DateFormat.getTimeInstance(DateFormat.FULL).format(item));
-                }
-            }
-        });
+        dataTypeColumn.setCellFactory(column -> new DataTypeTableCell());
+        subscribedColumn.setCellFactory(column -> new SubscribedTableCell());
+        timestampColumn.setCellFactory(column -> new TimestampTableCell());
     }
 
     private void initTableLists() {

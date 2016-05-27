@@ -1,4 +1,4 @@
-package utils;
+package controllers.tableUtils;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -7,7 +7,8 @@ import model.Topic;
 import java.util.Arrays;
 
 /**
- * Created by Gorka Olalde on 24/5/16.
+ * Cell renderer for the Topic values.
+ * @author Gorka Olalde
  */
 class TopicValueTableCell extends TableCell<Topic, Object>{
 
