@@ -1,4 +1,4 @@
-package controllers.tableUtils;
+package controllers.tableutils;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;

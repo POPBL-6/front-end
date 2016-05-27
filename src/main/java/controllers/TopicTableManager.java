@@ -1,8 +1,8 @@
 package controllers;
 
-import controllers.tableUtils.DataTypeTableCell;
-import controllers.tableUtils.SubscribedTableCell;
-import controllers.tableUtils.TimestampTableCell;
+import controllers.tableutils.DataTypeTableCell;
+import controllers.tableutils.SubscribedTableCell;
+import controllers.tableutils.TimestampTableCell;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.*;
@@ -53,11 +53,11 @@ class TopicTableManager {
         initialize();
     }
 
-    BooleanProperty hasItemsToSubscribeProperty() { return hasItemsToSubscribe; }
+    protected BooleanProperty hasItemsToSubscribeProperty() { return hasItemsToSubscribe; }
 
-    BooleanProperty hasItemsToUnsubscribeProperty() { return hasItemsToUnsubscribe; }
+    protected BooleanProperty hasItemsToUnsubscribeProperty() { return hasItemsToUnsubscribe; }
 
-    ObservableList<Topic> selectedItemsProperty() { return selectedItems; }
+    protected ObservableList<Topic> selectedItemsProperty() { return selectedItems; }
 
     private void initialize() {
         initColumns();

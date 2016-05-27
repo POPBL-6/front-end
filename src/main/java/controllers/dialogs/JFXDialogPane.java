@@ -34,7 +34,9 @@ class JFXDialogPane extends DialogPane {
         btn.setDefaultButton(type != null && buttonData.isDefaultButton());
         btn.setCancelButton(type != null && buttonData.isCancelButton());
         btn.addEventHandler(ActionEvent.ACTION, ae -> {
-            if (ae.isConsumed()) return;
+            if (ae.isConsumed()) {
+                return;
+            }
             if (dialog != null) {
                 dialog.impl_setResultAndClose(type, true);
             }

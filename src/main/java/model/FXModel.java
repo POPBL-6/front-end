@@ -82,13 +82,16 @@ public class FXModel implements TopicListener {
 
     public synchronized void unsubscribe(List<Topic> topicList) {
         ArrayList<String> topicNames = new ArrayList<>();
+        String[] params;
         topicList.forEach(t -> {
             if(topics.containsKey(t.getTopicName())) {
                 topicNames.add(t.getTopicName());
                 t.setSubscribed(false);
             }
         });
-        middleware.unsubscribe((String[]) topicNames.toArray());
+        params = new String[topicNames.size()];
+        params = topicNames.toArray(params);
+        middleware.unsubscribe(params);
     }
 
     public synchronized void publish(Topic topic, Object value) {

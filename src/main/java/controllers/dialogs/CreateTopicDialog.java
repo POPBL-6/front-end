@@ -126,7 +126,9 @@ public class CreateTopicDialog extends Dialog<Topic> {
         nameValidator.setIcon(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.WARNING));
         topicNameField.setValidators(nameValidator);
         topicNameField.focusedProperty().addListener((o,oldVal,newVal) -> {
-            if(!newVal) topicNameField.validate();
+            if(!newVal) {
+                topicNameField.validate();
+            }
         });
 
         valueValidator.setMessage("Please, enter a correct value");

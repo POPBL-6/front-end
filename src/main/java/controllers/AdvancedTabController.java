@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class AdvancedTabController {
 
-    private static final Logger logger = LogManager.getLogger(AdvancedTabController.class);
+    private static final Logger LOGGER = LogManager.getLogger(AdvancedTabController.class);
 
     private FXModel model;
 
@@ -53,13 +53,14 @@ public class AdvancedTabController {
     private void initController() {
         initTopicTableManager();
         initButtons();
+        LOGGER.info("AdvancedTabController initialization finished.");
     }
 
     /**
      * Initializes the controller by setting it's model first.
      * @param model the FXModel instance.
      */
-    void initController(FXModel model) {
+    public void initController(FXModel model) {
         setModel(model);
         initController();
     }
@@ -91,6 +92,7 @@ public class AdvancedTabController {
         ArrayList<Topic> subscribeList = selectedItems.stream()
                 .filter(topic -> !topic.isSubscribed())
                 .collect(Collectors.toCollection(ArrayList::new));
+        LOGGER.debug("Subscribed to " + subscribeList.size() + "topics");
         model.subscribe(subscribeList);
     }
 
@@ -102,6 +104,7 @@ public class AdvancedTabController {
         ArrayList<Topic> unSubscribeList = selectedItems.stream()
                 .filter(topic -> topic.isSubscribed())
                 .collect(Collectors.toCollection(ArrayList::new));
+        LOGGER.debug("Unsubscribed from " + unSubscribeList.size() + " topics");
         model.unsubscribe(unSubscribeList);
     }
 
@@ -114,6 +117,7 @@ public class AdvancedTabController {
         CreateTopicDialog dialog = new CreateTopicDialog(AppMain.getStage());
         dialog.showAndWait().ifPresent(response -> {
             if(response !=null) {
+                LOGGER.debug("Dialog response topic received.");
                 model.publish(response);
             }
         });
