@@ -10,7 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 import utils.ArrayUtils;
 
+import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -97,6 +100,7 @@ public class FXModelTest {
         testTopic2.setTopicName(topicName2);
         topics.add(testTopic);
         topics.add(testTopic2);
+        model.getTopics().put(testTopic.getTopicName(), testTopic);
         //record
         middlewareMock.addTopicListener(model);
         middlewareMock.subscribe(topicName, topicName2);
@@ -109,6 +113,7 @@ public class FXModelTest {
         assertTrue(testTopic.isSubscribed());
         assertTrue(testTopic2.isSubscribed());
     }
+
 
     @Test
     public void unsubscribe() throws Exception {
@@ -144,10 +149,30 @@ public class FXModelTest {
     }
 
     @Test
+    public void unsubscribeList() throws Exception {
+        ArrayList<Topic> topicList = new ArrayList<>();
+        Topic topic1 = new Topic("topic1", true);
+        Topic topic2 = new Topic("topic2", true);
+        topicList.add(topic1);
+        topicList.add(topic2);
+        model.getTopics().put(topic1.getTopicName(), topic1);
+
+        //record
+        middlewareMock.addTopicListener(model);
+        middlewareMock.unsubscribe(topic1.getTopicName());
+        //test
+        replay();
+        model.initModel(middlewareMock);
+        model.unsubscribe(topicList);
+        verify();
+        assertFalse(topic1.isSubscribed());
+    }
+
+    @Test
     public void publish() throws Exception {
         String topicName = "topic";
         Topic topic = new Topic(topicName);
-        Integer object = new Integer(1);
+        Integer object = 1;
         Capture<MessagePublish> publicationCapture = newCapture();
         //record
         middlewareMock.addTopicListener(model);
@@ -166,17 +191,35 @@ public class FXModelTest {
     }
 
     @Test
-    public void publishNullObject() throws Exception {
+    public void publishTopicObject() throws Exception {
         String topicName = "topic";
         Topic topic = new Topic(topicName);
-        Integer object = null;
+        Integer object = 1;
+        topic.setLastValue(object);
+        Capture<MessagePublish> publicationCapture = newCapture();
+        //record
+        middlewareMock.addTopicListener(model);
+        middlewareMock.publish(capture(publicationCapture));
+        replay(middlewareMock);
+        //test
+        model.initModel(middlewareMock);
+        model.publish(topic);
+        verify(middlewareMock);
+        assertEquals(object, publicationCapture.getValue().getDataObject());
+    }
+
+    @Test
+    public void publishNonSerializableObject() throws Exception {
+        String topicName = "topic";
+        Topic topic = new Topic(topicName);
+        topic.setLastValue(this);
         //record
         middlewareMock.addTopicListener(model);
         middlewareMock.publish(anyObject());
         replay(middlewareMock);
         //test
         model.initModel(middlewareMock);
-        model.publish(topic, object);
+        model.publish(topic, this);
         verify(middlewareMock);
         assertTrue(model.getTopics().size() == 1);
     }
@@ -211,6 +254,60 @@ public class FXModelTest {
     }
 
     @Test
+    public void forceRefreshNonDeserializable() throws Exception {
+        String topicName = "topic";
+        Topic topic = new Topic(topicName);
+        Integer dataObject = new Integer(10);
+        long timestamp = 1l;
+        //Store the topic with a valid last value
+        topic.setLastValue(dataObject);
+        model.getTopics().put(topicName, topic);
+        //Create the message plublication and corrupt the stored object
+        MessagePublication mockedPublication = new MessagePublication("UTF-8"
+                , ArrayUtils.serialize(dataObject)
+                , topicName
+                , "sender"
+                , timestamp);
+        mockedPublication.getData()[0] = (byte)~mockedPublication.getData()[0];
+        //record
+        middlewareMock.addTopicListener(model);
+        expect(middlewareMock.getLastSample(topicName)).andReturn(mockedPublication);
+        replay(middlewareMock);
+        //test
+        model.initModel(middlewareMock);
+        model.forceRefresh(topicName);
+        verify(middlewareMock);
+        assertSame(dataObject, topic.getLastValue());
+        assertEquals("Stored timestamp doesn't equal the received one"
+                , timestamp
+                , model.getTopic(topicName).getlastTimestamp());
+
+    }
+    @Test
+    public void forceRefreshTopicObject() throws IOException {
+        Topic topic = new Topic("topic", true);
+        model.getTopics().put(topic.getTopicName(), topic);
+        int storedValue = 10;
+        MessagePublication messagePublication = new MessagePublication(
+                "UTF-8",
+                ArrayUtils.serialize(storedValue),
+                "topic",
+                "sender1",
+                1L
+        );
+        //record
+        middlewareMock.addTopicListener(model);
+        expect(middlewareMock.getLastSample(topic.getTopicName())).andReturn(messagePublication);
+        replay(middlewareMock);
+        //test
+        model.initModel(middlewareMock);
+        model.forceRefresh(topic);
+        verify(middlewareMock);
+        assertEquals(storedValue, model.getTopic("topic").getLastValue());
+
+    }
+
+    @Test
     public void publicationReceived() throws Exception {
         String topicName = "topic";
         boolean subscribed = true;
@@ -232,4 +329,47 @@ public class FXModelTest {
                 , model.getTopic(topicName).getlastTimestamp());
     }
 
+    @Test
+    public void publicationReceivedNonDeserializable() throws Exception {
+        String topicName = "topic";
+        boolean subscribed = true;
+        Integer dataObject = new Integer(10);
+        long timestamp = 1l;
+        //Store the topic in the model
+        Topic topic = new Topic(topicName, subscribed);
+        topic.setLastValue(dataObject);
+        model.getTopics().put(topicName, topic);
+        //Create the message publication message and corrupt the stored object
+        MessagePublication publication  = new MessagePublication("UTF-8"
+                , ArrayUtils.serialize(dataObject)
+                , topicName
+                ,"sender"
+                ,  timestamp);
+        publication.getData()[0] = (byte)~publication.getData()[0];
+        model.publicationReceived(publication);
+        assertEquals("Received data doesn't match stored one"
+                , dataObject
+                , model.getTopic(topicName).getLastValue());
+        assertEquals("Received timestamp doesn't match stored one"
+                , timestamp
+                , model.getTopic(topicName).getlastTimestamp());
+    }
+
+    @Test
+    public void publicationReceivedNotStoredTopic() throws Exception {
+        String topicName = "topic";
+        boolean subscribed = true;
+        Integer dataObject = new Integer(10);
+        long timestamp = 1l;
+        //Create the message publication message and corrupt the stored object
+        MessagePublication publication  = new MessagePublication("UTF-8"
+                , ArrayUtils.serialize(dataObject)
+                , topicName
+                ,"sender"
+                ,  timestamp);
+        model.publicationReceived(publication);
+        assertTrue("The topic was stored when we weren't expecting an upate for it",
+                model.getTopics().isEmpty()
+        );
+    }
 }
