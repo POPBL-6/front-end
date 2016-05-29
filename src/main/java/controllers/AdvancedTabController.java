@@ -93,7 +93,9 @@ public class AdvancedTabController {
                 .filter(topic -> !topic.isSubscribed())
                 .collect(Collectors.toCollection(ArrayList::new));
         LOGGER.debug("Subscribed to " + subscribeList.size() + "topics");
-        model.subscribe(subscribeList);
+        if (subscribeList.size() > 0) {
+            model.subscribe(subscribeList);
+        }
     }
 
     /**
@@ -105,7 +107,9 @@ public class AdvancedTabController {
                 .filter(topic -> topic.isSubscribed())
                 .collect(Collectors.toCollection(ArrayList::new));
         LOGGER.debug("Unsubscribed from " + unSubscribeList.size() + " topics");
-        model.unsubscribe(unSubscribeList);
+        if (unSubscribeList.size() > 0) {
+            model.unsubscribe(unSubscribeList);
+        }
     }
 
     /**
