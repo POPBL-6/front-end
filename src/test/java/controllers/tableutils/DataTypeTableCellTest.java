@@ -87,10 +87,19 @@ public class DataTypeTableCellTest extends Application{
     }
 
     @Test
+    public void testValidButEmpty() {
+        int value = 10;
+        boolean empty = true;
+        tableCell.updateItem(value, empty);
+        assertEquals("", tableCell.getText());
+    }
+
+    @Test
     public void testUnknown() {
         Object unknownObject = new Socket();
         boolean empty = false;
         tableCell.updateItem(unknownObject, empty);
         assertEquals("Unknown class", tableCell.getText());
     }
+
 }
