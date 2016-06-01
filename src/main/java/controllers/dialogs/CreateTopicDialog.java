@@ -153,9 +153,6 @@ public class CreateTopicDialog extends Dialog<Topic> {
      * Sets the actions for the dialog buttons.
      */
     private void setButtonActionHandlers() {
-        saveBtn.onActionProperty().addListener(e -> {
-            System.out.println("Entra");
-        });
         setResultConverter( button -> {
             Topic topic = new Topic();
             if (button == ButtonType.OK) {
@@ -193,6 +190,7 @@ public class CreateTopicDialog extends Dialog<Topic> {
                 break;
             default:
                 outputObject = input;
+                break;
         }
         return outputObject;
     }
