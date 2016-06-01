@@ -2,8 +2,13 @@ package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import controllers.dialogs.CreateTopicDialog;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
 import model.AppMain;
 import model.FXModel;
@@ -32,6 +37,8 @@ public class AdvancedTabController {
     @FXML
     private JFXButton unSubscribeBtn;
 
+    @FXML
+    private JFXButton deleteBtn;
     @FXML
     private TableView<Topic> topicTable;
 
@@ -75,19 +82,29 @@ public class AdvancedTabController {
     private void initButtons() {
         subscribeBtn.setDisable(true);
         unSubscribeBtn.setDisable(true);
+        deleteBtn.setDisable(true);
         tableManager.hasItemsToSubscribeProperty().addListener((o, oldValue, newValue) -> {
             subscribeBtn.setDisable(!newValue);
         });
         tableManager.hasItemsToUnsubscribeProperty().addListener((o, oldValue, newValue) -> {
             unSubscribeBtn.setDisable(!newValue);
         });
+        tableManager.selectedItemsProperty().addListener((ListChangeListener<Topic>) c -> {
+           if (c.getList().size() > 0) {
+               deleteBtn.setDisable(false);
+           } else {
+               deleteBtn.setDisable(true);
+           }
+        });
+                subscribeBtn.setOnAction(e -> subscribeToSelection());
+        unSubscribeBtn.setOnAction(e -> unSubscribeFromSelection());
+        deleteBtn.setOnAction(e -> deleteSelectedTopics());
     }
 
 
     /**
      * Subscribe to selection button action handler.
      */
-    @FXML
     private void subscribeToSelection() {
         ArrayList<Topic> subscribeList = selectedItems.stream()
                 .filter(topic -> !topic.isSubscribed())
@@ -101,7 +118,6 @@ public class AdvancedTabController {
     /**
      * Unsubscribe from selection action handler.
      */
-    @FXML
     private void unSubscribeFromSelection() {
         ArrayList<Topic> unSubscribeList = selectedItems.stream()
                 .filter(topic -> topic.isSubscribed())
@@ -123,6 +139,8 @@ public class AdvancedTabController {
             if(response !=null) {
                 LOGGER.debug("Dialog response topic received.");
                 model.publish(response);
+            } else {
+                dialog.close();
             }
         });
 
@@ -131,8 +149,14 @@ public class AdvancedTabController {
     /**
      * Delete selected topics button handler.
      */
-    @FXML
     private void deleteSelectedTopics() {
-        //TODO:Add confirm dialog and action to delete topics.
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete topics?");
+        alert.setContentText("Are you sure you wish to delete the selected topics?");
+        alert.showAndWait().ifPresent(response -> {
+            if(response == ButtonType.OK) {
+                model.deleteTopics(selectedItems);
+            }
+        });
     }
 }

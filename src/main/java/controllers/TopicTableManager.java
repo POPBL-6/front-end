@@ -6,6 +6,7 @@ import controllers.tableutils.TimestampTableCell;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.*;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -157,14 +158,17 @@ class TopicTableManager {
      * Depending of the current subscribe state of the selected topics in the table, sets their respective properties.
      */
     private void initSelectedItemsSubscriptionMonitor() {
+        topicTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
        selectedItems.addListener((ListChangeListener<Topic>) e -> {
             int subscribedItems = 0;
             int unSubscribedItems = 0;
             for(Topic item : selectedItems) {
-                if (item.isSubscribed()) {
-                    subscribedItems++;
-                } else {
-                    unSubscribedItems++;
+                if(item != null) {
+                    if (item.isSubscribed()) {
+                        subscribedItems++;
+                    } else {
+                        unSubscribedItems++;
+                    }
                 }
             }
             hasItemsToUnsubscribe.set(subscribedItems != 0);

@@ -5,6 +5,7 @@ import api.TopicListener;
 import data.MessagePublication;
 import data.MessagePublish;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -94,6 +95,12 @@ public class FXModel implements TopicListener {
         middleware.unsubscribe(params);
     }
 
+    public synchronized void unsubscribe(Topic topic) {
+        if (topic.isSubscribed()) {
+            middleware.unsubscribe(topic.getTopicName());
+        }
+    }
+
     public synchronized void publish(Topic topic, Object value) {
         //TODO: Create changeListener for the values to publish them automatically when those are modified.
         MessagePublish message = new MessagePublish();
@@ -161,4 +168,15 @@ public class FXModel implements TopicListener {
             }
         }
     }
+
+    public void deleteTopics(List<Topic> topics) {
+        for(Topic topic : topics) {
+            if(topic.isSubscribed()) {
+                this.unsubscribe(topic);
+            }
+            this.topics.remove(topic.getTopicName());
+        }
+    }
+
+
 }

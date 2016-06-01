@@ -31,14 +31,14 @@
                    maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#createNewTopic"
                    prefHeight="27.0" prefWidth="145.0" ripplerFill="#1ecf0e" text="Create"/>
         <JFXButton fx:id="subscribeBtn" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity"
-                   maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#subscribeToSelection"
+                   maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                    prefHeight="27.0" prefWidth="145.0" ripplerFill="#123ab2" text="Subscribe"/>
         <JFXButton fx:id="unSubscribeBtn" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity"
                    maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-                   onAction="#unSubscribeFromSelection" prefHeight="27.0" prefWidth="145.0" ripplerFill="#123ab2"
+                   prefHeight="27.0" prefWidth="145.0" ripplerFill="#123ab2"
                    text="Unsubscribe" HBox.hgrow="ALWAYS"/>
         <JFXButton fx:id="deleteBtn" alignment="CENTER" buttonType="RAISED" maxHeight="-Infinity"
-                   maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#deleteSelectedTopics"
+                   maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                    prefHeight="27.0" prefWidth="145.0" ripplerFill="#fc1010" text="Delete"/>
     </HBox>
 </AnchorPane>
