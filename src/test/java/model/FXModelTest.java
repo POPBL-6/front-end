@@ -3,6 +3,7 @@ package model;
 import api.PSPort;
 import data.MessagePublication;
 import data.MessagePublish;
+import model.datatypes.Topic;
 import org.easymock.Capture;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
@@ -10,10 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import utils.ArrayUtils;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;

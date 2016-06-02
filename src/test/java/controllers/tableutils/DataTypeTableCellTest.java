@@ -15,6 +15,8 @@ import static junit.framework.TestCase.failSame;
 /**
  * Created by Gorka Olalde on 30/5/16.
  */
+
+
 public class DataTypeTableCellTest extends Application{
 
     DataTypeTableCell tableCell;

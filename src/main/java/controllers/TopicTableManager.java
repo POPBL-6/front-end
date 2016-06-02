@@ -10,7 +10,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.Topic;
+import model.datatypes.Topic;
 
 
 /**
@@ -34,6 +34,7 @@ class TopicTableManager {
     private TableColumn<Topic, Object> dataTypeColumn;
 
     private TableColumn<Topic, Object> valueColumn;
+
 
     private final BooleanProperty hasItemsToSubscribe = new SimpleBooleanProperty();
 
