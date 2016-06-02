@@ -38,6 +38,7 @@ public class MainSceneController {
     private void initFloor1Tab() {
         String floorFileName = "/fxml/floor1.fxml";
         FloorController floor1Controller = new FloorController();
+        floor1Controller.setModel(model);
         try {
             floor1Tab.setContent(floor1Controller.initController(floorFileName));
         } catch (IOException e) {
