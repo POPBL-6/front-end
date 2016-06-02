@@ -8,13 +8,11 @@ import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import model.FXModel;
 import model.datatypes.Topic;
-import org.easymock.Capture;
-import org.easymock.EasyMock;
-import org.easymock.Mock;
-import org.easymock.TestSubject;
+import org.easymock.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -27,6 +25,7 @@ import static org.easymock.EasyMock.*;
 /**
  * Created by Gorka Olalde on 30/5/16.
  */
+@RunWith(EasyMockRunner.class)
 public class AdvancedTabControllerTest extends Application{
 
     @Override

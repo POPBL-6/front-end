@@ -5,10 +5,12 @@ import data.MessagePublication;
 import data.MessagePublish;
 import model.datatypes.Topic;
 import org.easymock.Capture;
+import org.easymock.EasyMockRunner;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import utils.ArrayUtils;
 
 import java.io.IOException;
@@ -20,6 +22,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Gorka Olalde on 19/5/16.
  */
+@RunWith(EasyMockRunner.class)
 public class FXModelTest {
 
     @TestSubject
