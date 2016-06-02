@@ -7,7 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 import model.FXModel;
-import model.Topic;
+import model.datatypes.Topic;
 import org.easymock.Capture;
 import org.easymock.EasyMock;
 import org.easymock.Mock;
@@ -71,22 +71,28 @@ public class AdvancedTabControllerTest extends Application{
     public void testInitButtons() throws Exception {
         Field subscribeBtnField = AdvancedTabController.class.getDeclaredField("subscribeBtn");
         Field unsubscribeBtnField = AdvancedTabController.class.getDeclaredField("unSubscribeBtn");
+        Field deleteBtnField = AdvancedTabController.class.getDeclaredField("deleteBtn");
         Method initButtonsMethod = AdvancedTabController.class.getDeclaredMethod("initButtons");
         subscribeBtnField.setAccessible(true);
         unsubscribeBtnField.setAccessible(true);
+        deleteBtnField.setAccessible(true);
         initButtonsMethod.setAccessible(true);
 
         JFXButton subscribeBtn = new JFXButton();
         JFXButton unSubscribeBtn = new JFXButton();
+        JFXButton deleteBtn = new JFXButton();
         SimpleBooleanProperty itemsToSubscribe = new SimpleBooleanProperty();
         SimpleBooleanProperty itemsToUnSubscribe = new SimpleBooleanProperty();
+        ObservableList<Topic> selectedItems = FXCollections.observableArrayList();
         itemsToSubscribe.set(false);
         itemsToUnSubscribe.set(false);
         subscribeBtnField.set(controller, subscribeBtn);
         unsubscribeBtnField.set(controller, unSubscribeBtn);
+        deleteBtnField.set(controller, deleteBtn);
         //record
         expect(manager.hasItemsToSubscribeProperty()).andReturn(itemsToSubscribe);
         expect(manager.hasItemsToUnsubscribeProperty()).andReturn(itemsToUnSubscribe);
+        expect(manager.selectedItemsProperty()).andReturn(selectedItems);
         replay(manager);
         //play
         initButtonsMethod.invoke(controller);
@@ -94,11 +100,15 @@ public class AdvancedTabControllerTest extends Application{
         verify(manager);
         assertTrue(subscribeBtn.isDisabled());
         assertTrue(unSubscribeBtn.isDisabled());
+        assertTrue(deleteBtn.isDisabled());
         itemsToSubscribe.set(true);
         assertFalse(subscribeBtn.isDisabled());
         itemsToUnSubscribe.set(true);
         assertFalse(unSubscribeBtn.isDisabled());
-
+        selectedItems.add(new Topic());
+        assertFalse(deleteBtn.isDisabled());
+        selectedItems.clear();
+        assertTrue(deleteBtn.isDisabled());
     }
 
     @Test

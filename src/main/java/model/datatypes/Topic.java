@@ -1,4 +1,4 @@
-package model;
+package model.datatypes;
 
 import javafx.beans.property.*;
 
