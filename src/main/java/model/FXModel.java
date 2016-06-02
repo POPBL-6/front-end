@@ -41,6 +41,13 @@ public class FXModel implements TopicListener {
         return retVal;
     }
 
+    public synchronized void subscribe(Topic topic) {
+        if (!topics.containsKey(topic.getTopicName())) {
+            topics.put(topic.getTopicName(), topic);
+        }
+        middleware.subscribe(topic.getTopicName());
+    }
+
     public synchronized void subscribe(String... topicList) {
         Topic tempTopic;
         for (String topicName : topicList) {
