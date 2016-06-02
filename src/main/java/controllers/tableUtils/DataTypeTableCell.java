@@ -1,7 +1,7 @@
 package controllers.tableutils;
 
 import javafx.scene.control.TableCell;
-import model.Topic;
+import model.datatypes.Topic;
 
 /**
  * Table Cell to format the topic datatypes in the TopicTable.

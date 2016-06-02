@@ -2,7 +2,7 @@ package controllers.tableutils;
 
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import model.Topic;
+import model.datatypes.Topic;
 
 import java.util.Arrays;
 

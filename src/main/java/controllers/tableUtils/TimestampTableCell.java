@@ -1,7 +1,7 @@
 package controllers.tableutils;
 
 import javafx.scene.control.TableCell;
-import model.Topic;
+import model.datatypes.Topic;
 
 import java.text.DateFormat;
 
