@@ -2,6 +2,7 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import model.AppMain;
 import model.FXModel;
@@ -22,17 +23,26 @@ public class MainSceneController {
     @FXML
     private Tab advancedTab;
 
+    @FXML
+    private Tab floor1Tab;
 
     public void setModel(FXModel model) {
         this.model = model;
     }
 
     public void initTabs() {
+        initFloor1Tab();
         initAdvancedViewTab();
     }
 
     private void initFloor1Tab() {
-        //TODO: Add floor controller and init method.
+        String floorFileName = "/fxml/floor1.fxml";
+        FloorController floor1Controller = new FloorController();
+        try {
+            floor1Tab.setContent(floor1Controller.initController(floorFileName));
+        } catch (IOException e) {
+            logger.error("Error loading controller for floor " + floorFileName);
+        }
     }
 
     private void initFloor2Tab() {
