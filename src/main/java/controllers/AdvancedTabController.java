@@ -2,8 +2,6 @@ package controllers;
 
 import com.jfoenix.controls.JFXButton;
 import controllers.dialogs.CreateTopicDialog;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -12,7 +10,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
 import model.AppMain;
 import model.FXModel;
-import model.Topic;
+import model.datatypes.Topic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
