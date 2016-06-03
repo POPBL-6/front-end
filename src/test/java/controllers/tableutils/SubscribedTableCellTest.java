@@ -3,6 +3,7 @@ package controllers.tableutils;
 import controllers.AdvancedTabControllerTest;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class SubscribedTableCellTest extends Application {
 
+    private static Thread jfxThread;
     private SubscribedTableCell tableCell;
 
     @Override
@@ -23,13 +25,24 @@ public class SubscribedTableCellTest extends Application {
 
     @BeforeClass
     public static void initJFX() {
-        Thread t = new Thread("JavaFX Init Thread") {
+        jfxThread = new Thread("JavaFX Init Thread") {
             public void run() {
-                Application.launch(AdvancedTabControllerTest.class, new String[0]);
+                Application.launch(SubscribedTableCellTest.class, new String[0]);
             }
         };
-        t.setDaemon(true);
-        t.start();
+        jfxThread.setDaemon(true);
+        jfxThread.start();
+    }
+
+    @AfterClass
+    public static void stopJFX() {
+        try {
+            jfxThread.interrupt();
+            jfxThread.join(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Before

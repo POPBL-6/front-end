@@ -3,6 +3,7 @@ package controllers.tableutils;
 import controllers.AdvancedTabControllerTest;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import static junit.framework.TestCase.assertEquals;
 public class TimestampTableCellTest extends Application{
 
     private TimestampTableCell tableCell;
+    private static Thread jfxThread;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -25,13 +27,24 @@ public class TimestampTableCellTest extends Application{
 
     @BeforeClass
     public static void initJFX() {
-        Thread t = new Thread("JavaFX Init Thread") {
+        jfxThread = new Thread("JavaFX Init Thread") {
             public void run() {
-                Application.launch(AdvancedTabControllerTest.class, new String[0]);
+                Application.launch(TimestampTableCellTest.class, new String[0]);
             }
         };
-        t.setDaemon(true);
-        t.start();
+        jfxThread.setDaemon(true);
+        jfxThread.start();
+    }
+
+    @AfterClass
+    public static void stopJFX() {
+        try {
+            jfxThread.interrupt();
+            jfxThread.join(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Before

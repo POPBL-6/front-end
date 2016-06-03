@@ -22,7 +22,6 @@ import static org.junit.Assert.*;
 /**
  * Created by Gorka Olalde on 19/5/16.
  */
-@RunWith(EasyMockRunner.class)
 public class FXModelTest {
 
     @TestSubject
