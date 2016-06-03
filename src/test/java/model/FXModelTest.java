@@ -122,7 +122,6 @@ public class FXModelTest {
         String topicName = "topic1";
         boolean subscribed = true;
         Topic existingTopic = new Topic(topicName, subscribed);
-        Topic retrievedTopic;
         model.getTopics().put(topicName, existingTopic);
         //record
         middlewareMock.addTopicListener(model);
@@ -360,7 +359,6 @@ public class FXModelTest {
     @Test
     public void publicationReceivedNotStoredTopic() throws Exception {
         String topicName = "topic";
-        boolean subscribed = true;
         Integer dataObject = new Integer(10);
         long timestamp = 1l;
         //Create the message publication message and corrupt the stored object

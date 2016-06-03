@@ -14,7 +14,7 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class SubscribedTableCellTest extends Application {
 
-    SubscribedTableCell tableCell;
+    private SubscribedTableCell tableCell;
 
     @Override
     public void start(Stage primaryStage) throws Exception{

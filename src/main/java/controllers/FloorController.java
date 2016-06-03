@@ -20,10 +20,10 @@ import java.io.IOException;
  */
 public class FloorController {
 
-    FXModel model;
-    AnchorPane rootNode;
+    private FXModel model;
+    private AnchorPane rootNode;
 
-    ObservableList<Node> deviceControls;
+    private ObservableList<Node> deviceControls;
 
     public Node initController(String floorFXMLFile) throws IOException {
         FXMLLoader loader = new FXMLLoader(AppMain.class.getResource(floorFXMLFile));
@@ -37,7 +37,7 @@ public class FloorController {
         this.model = model;
     }
 
-    public void initDevices() {
+    private void initDevices() {
         deviceControls = rootNode.getChildren();
         for (Node node : deviceControls) {
             if (node instanceof JFXToggleButton) {

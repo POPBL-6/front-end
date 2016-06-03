@@ -2,7 +2,6 @@ package controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import model.AppMain;
 import model.FXModel;

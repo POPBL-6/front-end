@@ -25,8 +25,14 @@ import static org.easymock.EasyMock.*;
 /**
  * Created by Gorka Olalde on 30/5/16.
  */
-@RunWith(EasyMockRunner.class)
 public class AdvancedTabControllerTest extends Application{
+
+
+    private AdvancedTabController controller;
+
+    private FXModel model;
+
+    private TopicTableManager manager;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -44,18 +50,11 @@ public class AdvancedTabControllerTest extends Application{
         t.start();
     }
 
-    @TestSubject
-    AdvancedTabController controller;
 
-    @Mock
-    FXModel model;
-
-    @Mock
-    TopicTableManager manager;
     @Before
     public void before() throws NoSuchFieldException, IllegalAccessException {
-        model = EasyMock.createMock(FXModel.class);
-        manager = EasyMock.createMock(TopicTableManager.class);
+        model = createMock(FXModel.class);
+        manager = createMock(TopicTableManager.class);
         controller = new AdvancedTabController();
         Field modelField = AdvancedTabController.class.getDeclaredField("model");
         Field tableManagerField = AdvancedTabController.class.getDeclaredField("tableManager");

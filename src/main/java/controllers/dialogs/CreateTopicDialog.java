@@ -196,7 +196,7 @@ public class CreateTopicDialog extends Dialog<Topic> {
     }
 
 
-    void impl_setResultAndClose(ButtonType cmd, boolean close) {
+    protected void impl_setResultAndClose(ButtonType cmd, boolean close) {
         Callback<ButtonType, Topic> resultConverter = getResultConverter();
 
         Topic priorResultValue = getResult();

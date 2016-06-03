@@ -16,7 +16,7 @@ import static junit.framework.TestCase.assertEquals;
  */
 public class TimestampTableCellTest extends Application{
 
-    TimestampTableCell tableCell;
+    private TimestampTableCell tableCell;
 
     @Override
     public void start(Stage primaryStage) throws Exception{

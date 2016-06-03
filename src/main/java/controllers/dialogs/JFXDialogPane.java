@@ -15,7 +15,7 @@ import javafx.scene.text.Font;
 class JFXDialogPane extends DialogPane {
     private CreateTopicDialog dialog;
 
-    void setDialog(CreateTopicDialog dialog) { this.dialog = dialog; }
+    protected void setDialog(CreateTopicDialog dialog) { this.dialog = dialog; }
 
     @Override
     protected Node createButton(ButtonType type) {

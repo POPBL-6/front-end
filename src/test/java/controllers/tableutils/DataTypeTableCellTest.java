@@ -10,7 +10,6 @@ import org.junit.Test;
 import java.net.Socket;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.failSame;
 
 /**
  * Created by Gorka Olalde on 30/5/16.
@@ -19,7 +18,7 @@ import static junit.framework.TestCase.failSame;
 
 public class DataTypeTableCellTest extends Application{
 
-    DataTypeTableCell tableCell;
+    private DataTypeTableCell tableCell;
 
     @Override
     public void start(Stage primaryStage) throws Exception{

@@ -17,7 +17,7 @@ public class AppMain extends Application {
 
     private FXModel model;
     private static Stage stage;
-    private Scene scene;
+
     public static Stage getStage() {
         return stage;
     }
@@ -32,7 +32,7 @@ public class AppMain extends Application {
         mainSceneController.setModel(model);
         mainSceneController.initTabs();
         primaryStage.setTitle("POPBL6 Middleware Parking Demo App");
-        scene = new Scene(root, HSIZE, VSIZE);
+        Scene scene = new Scene(root, HSIZE, VSIZE);
         scene.getStylesheets().add("/css/mainCss.css");
         primaryStage.setScene(scene);
         primaryStage.show();

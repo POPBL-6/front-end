@@ -22,15 +22,6 @@
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab fx:id="floor2Tab" closable="false" text="Floor 2">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <children>
-                                <Group fx:id="floor2Group"/>
-                            </children>
-                        </AnchorPane>
-                    </content>
-                </Tab>
                 <Tab fx:id="advancedTab" text="Advanced visualization">
                     <content>
                         <AnchorPane fx:id="advancedPane" minHeight="0.0" minWidth="0.0"/>

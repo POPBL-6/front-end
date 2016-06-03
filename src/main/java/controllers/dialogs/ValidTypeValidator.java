@@ -39,6 +39,8 @@ public class ValidTypeValidator extends ValidatorBase {
                 evalStringInput(input);
                 break;
             case "Integer":
+                evalNumberInput(input);
+                break;
             case "Double":
                 evalNumberInput(input);
                 break;
