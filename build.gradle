@@ -48,5 +48,5 @@ test {
 		events 'started', 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
 		exceptionFormat = 'full'
 		}
-	}
 }
+
