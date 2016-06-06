@@ -56,4 +56,9 @@ class FakePSPort implements PSPort{
     public void removeTopicListener(TopicListener listener) {
 
     }
+
+    @Override
+    public String[] getAvailableTopics() {
+        return new String[0];
+    }
 }

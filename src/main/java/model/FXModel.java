@@ -45,6 +45,7 @@ public class FXModel implements TopicListener {
         if (!topics.containsKey(topic.getTopicName())) {
             topics.put(topic.getTopicName(), topic);
         }
+        topic.setSubscribed(true);
         middleware.subscribe(topic.getTopicName());
     }
 
@@ -55,6 +56,7 @@ public class FXModel implements TopicListener {
                 topics.get(topicName).setSubscribed(true);
             } else {
                 tempTopic = new Topic(topicName, true);
+                tempTopic.setSubscribed(true);
                 topics.put(topicName, tempTopic);
             }
         }
@@ -66,6 +68,7 @@ public class FXModel implements TopicListener {
         String[] params;
         topicList.forEach(t -> {
             if (!topics.containsKey(t.getTopicName())) {
+                t.setSubscribed(true);
                 topics.put(t.getTopicName(), t);
             }
             topicNames.add(t.getTopicName());
@@ -110,16 +113,14 @@ public class FXModel implements TopicListener {
 
     public synchronized void publish(Topic topic, Object value) {
         //TODO: Create changeListener for the values to publish them automatically when those are modified.
-        MessagePublish message = new MessagePublish();
-        topic.setLastValueTimestamp(System.currentTimeMillis());
-        topic.setLastValue(value);
-        message.setTopic(topic.getTopicName());
+        MessagePublish message;
         try {
+            message = new MessagePublish(topic.getTopicName(), topic.getLastValue());
             message.setDataObject(value);
+            middleware.publish(message);
         } catch (IOException e) {
             logger.error("Error serializing object for topic " + topic.getTopicName());
         }
-        middleware.publish(message);
         if(topics.get(topic) == null) {
             topics.put(topic.getTopicName(), topic);
         }

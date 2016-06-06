@@ -1,5 +1,9 @@
 package model;
 
+import api.PSPortFactory;
+import api.PSPortSSL;
+import api.PSPortTCP;
+import controllers.CrashController;
 import controllers.MainSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
 
 public class AppMain extends Application {
 
@@ -23,14 +29,20 @@ public class AppMain extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage){
+        Parent root;
         stage = primaryStage;
-        initModel();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
-        Parent root = loader.load();
-        MainSceneController mainSceneController = loader.getController();
-        mainSceneController.setModel(model);
-        mainSceneController.initTabs();
+        try {
+            initModel();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+            root = loader.load();
+            MainSceneController mainSceneController = loader.getController();
+            mainSceneController.setModel(model);
+            mainSceneController.initTabs();
+        } catch (IOException e) {
+            CrashController crashController = new CrashController();
+            root = crashController.loadController(e);
+        }
         primaryStage.setTitle("POPBL6 Middleware Parking Demo App");
         Scene scene = new Scene(root, HSIZE, VSIZE);
         scene.getStylesheets().add("/css/mainCss.css");
@@ -44,9 +56,9 @@ public class AppMain extends Application {
         launch(args);
     }
 
-    private void initModel() {
+    private void initModel() throws IOException {
         model = new FXModel();
-        model.initModel(new FakePSPort());
+        model.initModel(new PSPortTCP("127.0.0.1", 5434));
     }
 }
 

@@ -1,6 +1,7 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import controllers.dialogs.CreateTopicDialog;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -28,6 +29,9 @@ public class AdvancedTabController {
     private static final Logger LOGGER = LogManager.getLogger(AdvancedTabController.class);
 
     private FXModel model;
+
+    @FXML
+    private JFXTextField searchField;
 
     @FXML
     private JFXButton subscribeBtn;
@@ -58,6 +62,7 @@ public class AdvancedTabController {
     private void initController() {
         initTopicTableManager();
         initButtons();
+        initSearchField();
         LOGGER.info("AdvancedTabController initialization finished.");
     }
 
@@ -94,11 +99,14 @@ public class AdvancedTabController {
                deleteBtn.setDisable(true);
            }
         });
-                subscribeBtn.setOnAction(e -> subscribeToSelection());
+        subscribeBtn.setOnAction(e -> subscribeToSelection());
         unSubscribeBtn.setOnAction(e -> unSubscribeFromSelection());
         deleteBtn.setOnAction(e -> deleteSelectedTopics());
     }
 
+    private void initSearchField() {
+        searchField.textProperty().addListener((o, oldVal, newVal) -> tableManager.search(newVal));
+    }
 
     /**
      * Subscribe to selection button action handler.
@@ -108,6 +116,7 @@ public class AdvancedTabController {
                 .filter(topic -> !topic.isSubscribed())
                 .collect(Collectors.toCollection(ArrayList::new));
         LOGGER.debug("Subscribed to " + subscribeList.size() + "topics");
+        tableManager.clearTableSelection();
         if (subscribeList.size() > 0) {
             model.subscribe(subscribeList);
         }
@@ -120,6 +129,7 @@ public class AdvancedTabController {
         ArrayList<Topic> unSubscribeList = selectedItems.stream()
                 .filter(topic -> topic.isSubscribed())
                 .collect(Collectors.toCollection(ArrayList::new));
+        tableManager.clearTableSelection();
         LOGGER.debug("Unsubscribed from " + unSubscribeList.size() + " topics");
         if (unSubscribeList.size() > 0) {
             model.unsubscribe(unSubscribeList);
@@ -154,6 +164,7 @@ public class AdvancedTabController {
         alert.showAndWait().ifPresent(response -> {
             if(response == ButtonType.OK) {
                 model.deleteTopics(selectedItems);
+                tableManager.clearTableSelection();
             }
         });
     }

@@ -55,9 +55,11 @@ public class FloorController {
         if (device != null) {
             Topic deviceTopic = new Topic(device.getTopicName());
             model.subscribe(deviceTopic);
-            textField.textProperty().addListener((o, oldVal, newVal) -> {
-                deviceTopic.setLastValue(newVal);
-                model.publish(deviceTopic);
+            textField.focusedProperty().addListener((o, oldVal, newVal) -> {
+                if(!newVal) {
+                    deviceTopic.setLastValue(textField.getText());
+                    model.publish(deviceTopic);
+                }
             });
             deviceTopic.lastValueProperty().addListener((o, oldVal, newVal) -> {
                 textField.textProperty().set((String) newVal);
@@ -70,9 +72,11 @@ public class FloorController {
         if (device != null) {
             Topic deviceTopic = new Topic(device.getTopicName());
             model.subscribe(deviceTopic);
-            slider.valueProperty().addListener((o, oldVal, newVal) -> {
-                deviceTopic.setLastValue(newVal);
-                model.publish(deviceTopic);
+            slider.valueChangingProperty().addListener((o, oldVal, newVal) -> {
+                if(!newVal) {
+                    deviceTopic.setLastValue(slider.getValue());
+                    model.publish(deviceTopic);
+                }
             });
             deviceTopic.lastValueProperty().addListener((o, oldVal, newVal) -> {
                 slider.valueProperty().set((Double) newVal);

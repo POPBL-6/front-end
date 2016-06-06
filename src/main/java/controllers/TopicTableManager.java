@@ -12,6 +12,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.datatypes.Topic;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 
 /**
  * Class for managing and creating the topic table.
@@ -175,6 +178,17 @@ class TopicTableManager {
             hasItemsToUnsubscribe.set(subscribedItems != 0);
             hasItemsToSubscribe.set(unSubscribedItems != 0);
         });
+    }
+
+    public void clearTableSelection() {
+        topicTable.getSelectionModel().clearSelection();
+    }
+
+    public void search(String topic) {
+        topicTable.getSelectionModel().clearSelection();
+        topicList.stream()
+                .filter(s -> s.getTopicName().contains(topic))
+                .forEach(s -> topicTable.getSelectionModel().select(s));
     }
 
 
