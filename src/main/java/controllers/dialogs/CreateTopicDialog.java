@@ -4,20 +4,18 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
+import controllers.validators.ValidTypeValidator;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import model.AppMain;
 import model.datatypes.Topic;
 import org.apache.logging.log4j.LogManager;
@@ -32,6 +30,9 @@ import java.io.IOException;
 public class CreateTopicDialog extends Dialog<Topic> {
 
     private static final Logger logger = LogManager.getLogger(CreateTopicDialog.class);
+
+    @FXML
+    Label headerLabel;
 
     @FXML
     private
@@ -65,8 +66,9 @@ public class CreateTopicDialog extends Dialog<Topic> {
         setHeight(350);
         setWidth(400);
         setDialogPane();
-        initButtons();
         initDialogContent();
+        initHeaderIcon();
+        initButtons();
         initComboBox();
         initValidators();
         setButtonActionHandlers();
@@ -76,21 +78,24 @@ public class CreateTopicDialog extends Dialog<Topic> {
      * Initializes the save and cancel buttons. Sets the save button to a variable for later interaction with it.
      */
     private void initButtons() {
-        EventHandler<Event> eventHandler = event -> {
-            if (!topicNameField.validate() || !valueField.validate()) {
-                event.consume();
-            }
-        };
         getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
         JFXButton cancelBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.CANCEL);
         saveBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.OK);
-        saveBtn.addEventFilter(EventType.ROOT, eventHandler);
+        saveBtn.addEventFilter(EventType.ROOT, event -> {
+            if (!topicNameField.validate() || !valueField.validate()) {
+                event.consume();
+            }
+        });
     }
 
     /**
      * Sets the dialog pane to the custom JFXDialogPane class which uses JFXButtons instead of the standard buttons.
      * @see JFXDialogPane
      */
+
+    private void initHeaderIcon() {
+        headerLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PAPER_PLANE, "54"));
+    }
 
     private void setDialogPane() {
         JFXDialogPane dialogPane = new JFXDialogPane();
@@ -159,10 +164,13 @@ public class CreateTopicDialog extends Dialog<Topic> {
         setResultConverter( button -> {
             Topic topic = new Topic();
             if (button == ButtonType.OK) {
-                topic.setTopicName(topicNameField.getText());
-                topic.setLastValueTimestamp(System.currentTimeMillis());
-                topic.setLastValue(createObjectByType(dataType, valueField.getText()));
-                return topic;
+                valueValidator.setDataType(dataType);
+                if (topicNameField.validate() && valueField.validate()) {
+                    topic.setTopicName(topicNameField.getText());
+                    topic.setLastValueTimestamp(System.currentTimeMillis());
+                    topic.setLastValue(createObjectByType(dataType, valueField.getText()));
+                    return topic;
+                }
             }
             return null;
         });

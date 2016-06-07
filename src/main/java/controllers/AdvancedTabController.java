@@ -3,6 +3,7 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import controllers.dialogs.CreateTopicDialog;
+import controllers.dialogs.JFXDialogPane;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -147,8 +148,6 @@ public class AdvancedTabController {
             if(response !=null) {
                 LOGGER.debug("Dialog response topic received.");
                 model.publish(response);
-            } else {
-                dialog.close();
             }
         });
 
