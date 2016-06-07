@@ -5,17 +5,20 @@ import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.util.Callback;
+import model.datatypes.Topic;
 
 /**
  * Class that extends the default DialogPane and creates JFXButtons instead of the default Buttons.
  */
 class JFXDialogPane extends DialogPane {
-    private CreateTopicDialog dialog;
+    private Dialog dialog;
 
-    protected void setDialog(CreateTopicDialog dialog) { this.dialog = dialog; }
+    protected void setDialog(Dialog dialog) { this.dialog = dialog; }
 
     @Override
     protected Node createButton(ButtonType type) {
@@ -30,7 +33,7 @@ class JFXDialogPane extends DialogPane {
         } else {
             btn.setFont(new Font("Arial", 18));
         }
-        ButtonBar.setButtonData(btn, type.getButtonData());
+        ButtonBar.setButtonData(btn, buttonData);
         btn.setDefaultButton(type != null && buttonData.isDefaultButton());
         btn.setCancelButton(type != null && buttonData.isCancelButton());
         btn.addEventHandler(ActionEvent.ACTION, ae -> {
@@ -38,7 +41,8 @@ class JFXDialogPane extends DialogPane {
                 return;
             }
             if (dialog != null) {
-                dialog.impl_setResultAndClose(type, true);
+                dialog.setResult(dialog.getResultConverter().call(ButtonType.OK));
+                dialog.close();
             }
         });
         return btn;

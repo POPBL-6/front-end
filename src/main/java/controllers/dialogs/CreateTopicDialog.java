@@ -6,6 +6,10 @@ import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
@@ -72,9 +76,15 @@ public class CreateTopicDialog extends Dialog<Topic> {
      * Initializes the save and cancel buttons. Sets the save button to a variable for later interaction with it.
      */
     private void initButtons() {
+        EventHandler<Event> eventHandler = event -> {
+            if (!topicNameField.validate() || !valueField.validate()) {
+                event.consume();
+            }
+        };
         getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
         JFXButton cancelBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.CANCEL);
         saveBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.OK);
+        saveBtn.addEventFilter(EventType.ROOT, eventHandler);
     }
 
     /**
@@ -140,13 +150,6 @@ public class CreateTopicDialog extends Dialog<Topic> {
                 valueField.validate();
             }
         });
-        valueValidator.hasErrorsProperty().addListener((o, oldVal, newVal) -> {
-            if (newVal || nameValidator.getHasErrors()) {
-                saveBtn.setDisable(true);
-            } else {
-                saveBtn.setDisable(false);
-            }
-        });
     }
 
     /**
@@ -163,6 +166,7 @@ public class CreateTopicDialog extends Dialog<Topic> {
             }
             return null;
         });
+
     }
 
     /**
@@ -195,20 +199,5 @@ public class CreateTopicDialog extends Dialog<Topic> {
         return outputObject;
     }
 
-
-    protected void impl_setResultAndClose(ButtonType cmd, boolean close) {
-        Callback<ButtonType, Topic> resultConverter = getResultConverter();
-
-        Topic priorResultValue = getResult();
-        Topic newResultValue = null;
-
-        if (resultConverter != null) {
-            newResultValue = resultConverter.call(cmd);
-        }
-        setResult(newResultValue);
-        if (close && priorResultValue == newResultValue) {
-            close();
-        }
-    }
 }
 
