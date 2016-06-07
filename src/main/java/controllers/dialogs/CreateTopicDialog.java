@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.AppMain;
+import model.DataUtils;
 import model.datatypes.Topic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -168,7 +169,7 @@ public class CreateTopicDialog extends Dialog<Topic> {
                 if (topicNameField.validate() && valueField.validate()) {
                     topic.setTopicName(topicNameField.getText());
                     topic.setLastValueTimestamp(System.currentTimeMillis());
-                    topic.setLastValue(createObjectByType(dataType, valueField.getText()));
+                    topic.setLastValue(DataUtils.createObjectByType(dataType, valueField.getText()));
                     return topic;
                 }
             }
@@ -185,27 +186,7 @@ public class CreateTopicDialog extends Dialog<Topic> {
      * @return The object containing the data.
      */
 
-    private Object createObjectByType(String dataType, String input) {
-        Object outputObject;
-        switch (dataType) {
-            case "String":
-                outputObject = input;
-                break;
-            case "Integer":
-                outputObject = Integer.parseInt(input);
-                break;
-            case "Double":
-                outputObject = Double.parseDouble(input);
-                break;
-            case "Boolean":
-                outputObject = Boolean.parseBoolean(input);
-                break;
-            default:
-                outputObject = input;
-                break;
-        }
-        return outputObject;
-    }
+
 
 }
 

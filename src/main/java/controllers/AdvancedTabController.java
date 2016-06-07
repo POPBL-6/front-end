@@ -3,7 +3,7 @@ package controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import controllers.dialogs.CreateTopicDialog;
-import controllers.dialogs.JFXDialogPane;
+import controllers.dialogs.EditTopicDialog;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -36,6 +36,9 @@ public class AdvancedTabController {
 
     @FXML
     private JFXButton subscribeBtn;
+
+    @FXML
+    private JFXButton editBtn;
 
     @FXML
     private JFXButton unSubscribeBtn;
@@ -86,6 +89,7 @@ public class AdvancedTabController {
     private void initButtons() {
         subscribeBtn.setDisable(true);
         unSubscribeBtn.setDisable(true);
+        editBtn.setDisable(true);
         deleteBtn.setDisable(true);
         tableManager.hasItemsToSubscribeProperty().addListener((o, oldValue, newValue) -> {
             subscribeBtn.setDisable(!newValue);
@@ -100,8 +104,16 @@ public class AdvancedTabController {
                deleteBtn.setDisable(true);
            }
         });
+        tableManager.selectedItemsProperty().addListener((ListChangeListener<Topic>) c -> {
+            if (c.getList().size() == 1) {
+                editBtn.setDisable(false);
+            } else {
+                editBtn.setDisable(true);
+            }
+        });
         subscribeBtn.setOnAction(e -> subscribeToSelection());
         unSubscribeBtn.setOnAction(e -> unSubscribeFromSelection());
+        editBtn.setOnAction(e -> editSelectedTopics());
         deleteBtn.setOnAction(e -> deleteSelectedTopics());
     }
 
@@ -152,6 +164,23 @@ public class AdvancedTabController {
         });
 
     }
+
+
+    private void editSelectedTopics() {
+        Topic selectedTopic;
+        if(selectedItems.size() == 1) {
+            selectedTopic = selectedItems.get(0);
+            EditTopicDialog dialog = new EditTopicDialog(AppMain.getStage(), selectedTopic);
+            dialog.showAndWait().ifPresent(response -> {
+                if(response != null) {
+                    model.publish(selectedTopic);
+                    tableManager.clearTableSelection();
+                }
+            });
+
+        }
+    }
+
 
     /**
      * Delete selected topics button handler.
