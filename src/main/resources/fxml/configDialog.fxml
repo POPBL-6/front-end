@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import controllers.validators.ValidTypeValidator?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="362.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="headerLabel" layoutX="5.0" layoutY="5.0" prefHeight="52.0" prefWidth="600.0" text="Middleware initial configuration">
+         <font>
+            <Font name="Arial" size="35.0" />
+         </font>
+      </Label>
+      <VBox layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="197.0" prefWidth="600.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0" spacing="7.0">
+         <children>
+            <Label text="Middleware implementation type:">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="typeCombo" prefHeight="30.0" prefWidth="602.0" />
+            <Label text="Address:">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="addressField" />
+            <ValidTypeValidator fx:id="addressValidator"/>
+            <Label text="Port:">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="portField" />
+            <ValidTypeValidator fx:id="portValidator"/>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

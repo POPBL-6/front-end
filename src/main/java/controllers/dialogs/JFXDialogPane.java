@@ -9,13 +9,11 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.DialogPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.util.Callback;
-import model.datatypes.Topic;
 
 /**
  * Class that extends the default DialogPane and creates JFXButtons instead of the default Buttons.
  */
-class JFXDialogPane extends DialogPane {
+public class JFXDialogPane extends DialogPane {
     private Dialog dialog;
 
     protected void setDialog(Dialog dialog) { this.dialog = dialog; }

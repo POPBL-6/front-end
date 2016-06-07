@@ -1,10 +1,9 @@
 package model;
 
-import api.PSPortFactory;
-import api.PSPortSSL;
-import api.PSPortTCP;
+import api.PSPort;
 import controllers.CrashController;
 import controllers.MainSceneController;
+import controllers.dialogs.ConfigDialog;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +22,6 @@ public class AppMain extends Application {
 
     private FXModel model;
     private static Stage stage;
-
     public static Stage getStage() {
         return stage;
     }
@@ -32,23 +30,27 @@ public class AppMain extends Application {
     public void start(Stage primaryStage){
         Parent root;
         stage = primaryStage;
-        try {
-            initModel();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
-            root = loader.load();
-            MainSceneController mainSceneController = loader.getController();
-            mainSceneController.setModel(model);
-            mainSceneController.initTabs();
-        } catch (IOException e) {
-            CrashController crashController = new CrashController();
-            root = crashController.loadController(e);
+        if (initModel()) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+                root = loader.load();
+                MainSceneController mainSceneController = loader.getController();
+                mainSceneController.setModel(model);
+                mainSceneController.initTabs();
+            } catch (IOException e) {
+                CrashController crashController = new CrashController();
+                root = crashController.loadController(e);
+            }
+            primaryStage.setTitle("POPBL6 Middleware Parking Demo App");
+            Scene scene = new Scene(root, HSIZE, VSIZE);
+            scene.getStylesheets().add("/css/mainCss.css");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            logger.info("Application started");
+        } else {
+            stage.close();
+            logger.info("Application terminated due to user cancellation in config dialog");
         }
-        primaryStage.setTitle("POPBL6 Middleware Parking Demo App");
-        Scene scene = new Scene(root, HSIZE, VSIZE);
-        scene.getStylesheets().add("/css/mainCss.css");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        logger.info("Application started");
     }
 
 
@@ -56,9 +58,18 @@ public class AppMain extends Application {
         launch(args);
     }
 
-    private void initModel() throws IOException {
+    private boolean initModel() {
+        boolean initializedOK = false;
         model = new FXModel();
-        model.initModel(new PSPortTCP("127.0.0.1", 5434));
+        PSPort psPort;
+        ConfigDialog dialog = new ConfigDialog();
+        dialog.showAndWait();
+        psPort = dialog.getResult();
+        if (psPort != null) {
+            model.initModel(psPort);
+            initializedOK = true;
+        }
+        return initializedOK;
     }
 }
 

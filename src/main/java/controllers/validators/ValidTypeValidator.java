@@ -1,8 +1,11 @@
-package controllers.dialogs;
+package controllers.validators;
 
 import com.jfoenix.validation.base.ValidatorBase;
 import javafx.beans.DefaultProperty;
 import javafx.scene.control.TextInputControl;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by Gorka Olalde on 25/5/16.
@@ -47,8 +50,36 @@ public class ValidTypeValidator extends ValidatorBase {
             case "Boolean":
                 evalBooleanInput(input);
                 break;
+            case "InetAddress":
+                evalInetAddressInput(input);
+                break;
+            case "InetPort":
+                evalInetPortInput(input);
             default:
                 evalStringInput(input);
+        }
+    }
+
+    private void evalInetPortInput(String input) {
+        int port;
+        try {
+            port = Integer.parseInt(input);
+            if (port > 0 && port < 65534) {
+                hasErrors.set(false);
+            } else {
+                hasErrors.set(true);
+            }
+        } catch (Exception e) {
+            hasErrors.set(true);
+        }
+    }
+
+    private void evalInetAddressInput(String input) {
+        try {
+            InetAddress.getByName(input);
+            hasErrors.set(false);
+        } catch (UnknownHostException e) {
+            hasErrors.set(true);
         }
     }
 
