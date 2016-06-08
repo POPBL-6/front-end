@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
@@ -31,6 +32,7 @@ public class FloorController {
     private AnchorPane rootNode;
     private final ColorAdjust colorAdjust = new ColorAdjust();
 
+    @FXML
     private ImageView floorPlan;
 
     private ObservableList<Node> deviceControls;

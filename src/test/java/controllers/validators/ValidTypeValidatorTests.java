@@ -4,10 +4,8 @@ import com.jfoenix.controls.JFXTextField;
 import controllers.tableutils.DataTypeTableCellTest;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
+import utils.JavaFXThreadingRule;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -15,39 +13,16 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Gorka Olalde on 8/6/16.
  */
-public class ValidTypeValidatorTests extends Application{
+public class ValidTypeValidatorTests{
 
     ValidTypeValidator validator;
 
 
-    private static Thread jfxThread;
     JFXTextField textField;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
+    @Rule
+    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
-    }
-
-    @BeforeClass
-    public static void initJFX() {
-        jfxThread = new Thread("JavaFX Init Thread") {
-            public void run() {
-                Application.launch(DataTypeTableCellTest.class, new String[0]);
-            }
-        };
-        jfxThread.setDaemon(true);
-        jfxThread.start();
-    }
-
-    @AfterClass
-    public static void stopJFX() {
-        try {
-            jfxThread.interrupt();
-            jfxThread.join(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Before
     public void before() {
@@ -83,9 +58,11 @@ public class ValidTypeValidatorTests extends Application{
     public void validateBoolean() {
         String validData = "true";
         String invalidData = "";
-        validator.setDataType("Integer");
+        validator.setDataType("Boolean");
         textField.setText(validData);
         assertTrue(textField.validate());
+        textField.setText(invalidData);
+        assertFalse(textField.validate());
     }
 
     @Test

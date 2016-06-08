@@ -9,10 +9,7 @@ import javafx.stage.Stage;
 import model.FXModel;
 import model.datatypes.Topic;
 import org.easymock.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import utils.JavaFXThreadingRule;
 
@@ -39,6 +36,7 @@ public class AdvancedTabControllerTest{
 
     @Rule
     public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
+
 
     @Before
     public void before() throws NoSuchFieldException, IllegalAccessException {

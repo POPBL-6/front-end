@@ -33,27 +33,22 @@ public class CreateTopicDialog extends Dialog<Topic> {
     private static final Logger logger = LogManager.getLogger(CreateTopicDialog.class);
 
     @FXML
-    Label headerLabel;
+    private Label headerLabel;
 
     @FXML
-    private
-    JFXTextField topicNameField;
+    private JFXTextField topicNameField;
 
     @FXML
-    private
-    RequiredFieldValidator nameValidator;
+    private RequiredFieldValidator nameValidator;
 
     @FXML
-    private
-    JFXComboBox<String> dataTypeCombo;
+    private JFXComboBox<String> dataTypeCombo;
 
     @FXML
-    private
-    JFXTextField valueField;
+    private JFXTextField valueField;
 
     @FXML
-    private
-    ValidTypeValidator valueValidator;
+    private ValidTypeValidator valueValidator;
 
     private String dataType = "String";
 

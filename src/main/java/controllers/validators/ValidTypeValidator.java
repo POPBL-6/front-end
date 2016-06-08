@@ -42,10 +42,10 @@ public class ValidTypeValidator extends ValidatorBase {
                 evalStringInput(input);
                 break;
             case "Integer":
-                evalNumberInput(input);
+                evalIntegerInput(input);
                 break;
             case "Double":
-                evalNumberInput(input);
+                evalDoubleInput(input);
                 break;
             case "Boolean":
                 evalBooleanInput(input);
@@ -58,6 +58,60 @@ public class ValidTypeValidator extends ValidatorBase {
                 break;
             default:
                 evalStringInput(input);
+        }
+    }
+
+    /**
+     * Evaluates if the input data is a valid boolean value.
+     * @param input boolean in String representation.
+     */
+    private void evalBooleanInput(String input) {
+        String lowerInput = input.toLowerCase();
+        if("true".equals(lowerInput) || "false".equals(lowerInput)) {
+            hasErrors.set(false);
+        } else {
+            hasErrors.set(true);
+        }
+    }
+
+
+    /**
+     * Evaluates if the input data is a valid double.
+     * @param input the double value to be validated.
+     */
+    private void evalDoubleInput(String input) {
+        try {
+            Double.parseDouble(input);
+            hasErrors.set(false);
+        } catch (Exception e) {
+            hasErrors.set(true);
+        }
+    }
+
+
+    /**
+     * Evaluates if the input data is a valid integer.
+     * @param input the integer value to be validated.
+     */
+    private void evalIntegerInput(String input) {
+        try {
+            Integer.parseInt(input);
+            hasErrors.set(false);
+        } catch (Exception e) {
+            hasErrors.set(true);
+        }
+    }
+
+
+    /**
+     * Evaluates if the input data is a correct and not empty String
+     * @param input The string to be validated.
+     */
+    private void evalStringInput(String input) {
+        if(!"".equals(input)) {
+            hasErrors.set(false);
+        } else {
+            hasErrors.set(true);
         }
     }
 
@@ -90,48 +144,6 @@ public class ValidTypeValidator extends ValidatorBase {
             InetAddress.getByName(input);
             hasErrors.set(false);
         } catch (UnknownHostException e) {
-            hasErrors.set(true);
-        }
-    }
-
-
-    /**
-     * Evaluates if the input data is a valid boolean value.
-     * @param input boolean in String representation.
-     */
-    private void evalBooleanInput(String input) {
-        String lowerInput = input.toLowerCase();
-        if("true".equals(lowerInput) || "false".equals(lowerInput)) {
-            hasErrors.set(false);
-        } else {
-            hasErrors.set(true);
-        }
-    }
-
-
-    /**
-     * Evaluates if the input data is a valid number.
-     * @param input the number value (Integer or Double) to be validated.
-     */
-    private void evalNumberInput(String input) {
-        try {
-            Integer.parseInt(input);
-            Double.parseDouble(input);
-            hasErrors.set(false);
-        } catch (Exception e) {
-            hasErrors.set(true);
-        }
-    }
-
-
-    /**
-     * Evaluates if the input data is a correct and not empty String
-     * @param input The string to be validated.
-     */
-    private void evalStringInput(String input) {
-        if(!"".equals(input)) {
-            hasErrors.set(false);
-        } else {
             hasErrors.set(true);
         }
     }

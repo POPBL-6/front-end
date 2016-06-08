@@ -10,34 +10,45 @@ import java.util.Arrays;
  * Cell renderer for the Topic values.
  * @author Gorka Olalde
  */
-class TopicValueTableCell extends TableCell<Topic, Object>{
+public class TopicValueTableCell extends TableCell<Topic, Object>{
 
-    protected void updateItem(Topic item, boolean empty) {
+
+    /**
+     * Updates the cell to show the different types of data in a readable way.
+     * Calls the method to render de cell based on the item class.
+     * @param item The item to be rendered.
+     * @param empty If the cell is empty or not.
+     */
+    @Override
+    protected void updateItem(Object item, boolean empty) {
         super.updateItem(item, empty);
-        Object value = item.getLastValue();
         Node fxControl;
-        if(empty) {
+        if(empty || item == null) {
             setText("Unknown");
         } else {
-            if (value instanceof String) {
-                fxControl = createStringNode((String) value);
-            } else if (value instanceof Boolean) {
-                fxControl = createBooleanNode((Boolean) value);
-            } else if (value instanceof Integer) {
-                fxControl = createIntegerNode((Integer) value);
-            } else if (value instanceof Double) {
-                fxControl = createDoubleNode((Double) value);
+            if (item instanceof String) {
+                fxControl = createStringNode((String) item);
+            } else if (item instanceof Boolean) {
+                fxControl = createBooleanNode((Boolean) item);
+            } else if (item instanceof Integer) {
+                fxControl = createIntegerNode((Integer) item);
+            } else if (item instanceof Double) {
+                fxControl = createDoubleNode((Double) item);
             } else {
-                fxControl = createUnknownNode(value);
+                fxControl = createUnknownNode(item);
             }
-            setGraphic(fxControl);
+        setGraphic(fxControl);
         }
     }
 
 
-
+    /**
+     * Method to return a TextField in case that the object is a string.
+     * @param value
+     * @return
+     */
     private Node createStringNode(String value) {
-        return new TextField(value);
+        return new Label(value);
     }
 
 

@@ -1,4 +1,4 @@
-package controllers;
+package controllers.dialogs;
 
 import api.PSPortFactory;
 import api.PSPortSSL;
@@ -13,10 +13,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -34,8 +31,7 @@ import static org.powermock.api.easymock.PowerMock.*;
  * Created by Gorka Olalde on 8/6/16.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Callback.class, PSPortTCP.class, PSPortSSL.class, PSPortFactory.class, ConfigDialog.class})
-@PowerMockIgnore({"javax.management.*"})
+@PrepareForTest({Callback.class, PSPortTCP.class, PSPortSSL.class, PSPortFactory.class})
 public class ConfigDialogControllerTest{
 
     ConfigDialog dialog;
@@ -47,6 +43,7 @@ public class ConfigDialogControllerTest{
 
     @Rule
     public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
+
 
     @Before
     public void before() throws NoSuchFieldException, IllegalAccessException {

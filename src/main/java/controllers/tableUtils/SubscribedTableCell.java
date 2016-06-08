@@ -8,6 +8,12 @@ import model.datatypes.Topic;
  * @author Gorka Olalde
  */
 public class SubscribedTableCell extends TableCell<Topic, Boolean> {
+
+    /**
+     * Updates the table cell to show if the application is subscribed to the topic or not.
+     * @param item The boolean that shows if the we are subscribed to the topic or not.
+     * @param empty If the cell is empty.
+     */
     @Override
     protected void updateItem(Boolean item, boolean empty) {
         super.updateItem(item, empty);

@@ -215,7 +215,6 @@ public class FXModelTest {
         topic.setLastValue(this);
         //record
         middlewareMock.addTopicListener(model);
-        middlewareMock.publish(anyObject());
         replay(middlewareMock);
         //test
         model.initModel(middlewareMock);

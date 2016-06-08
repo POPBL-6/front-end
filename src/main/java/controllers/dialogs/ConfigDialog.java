@@ -28,25 +28,25 @@ public class ConfigDialog extends Dialog<PSPort> {
 
     private static final Logger LOGGER = LogManager.getLogger(ConfigDialog.class);
 
-    JFXButton saveBtn;
+    private JFXButton saveBtn;
 
     @FXML
-    Label headerLabel;
+    private Label headerLabel;
 
     @FXML
-    JFXTextField addressField;
+    private JFXTextField addressField;
 
     @FXML
-    JFXTextField portField;
+    private JFXTextField portField;
 
     @FXML
-    JFXComboBox<String> typeCombo;
+    private JFXComboBox<String> typeCombo;
 
     @FXML
-    ValidTypeValidator addressValidator;
+    private ValidTypeValidator addressValidator;
 
     @FXML
-    ValidTypeValidator portValidator;
+    private ValidTypeValidator portValidator;
 
     /**
      * Default constructor of the config dialog. Initializes the dialog and all it's components.
