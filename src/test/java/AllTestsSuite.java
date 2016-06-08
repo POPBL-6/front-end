@@ -1,4 +1,8 @@
 import controllers.AdvancedTabControllerTest;
+import controllers.dialogs.CreateTopicDialogValidTest;
+import controllers.dialogs.CreateTopicInvalidTest;
+import controllers.dialogs.EditTopicInvalidTest;
+import controllers.dialogs.EditTopicValidTest;
 import controllers.tableutils.DataTypeTableCellTest;
 import controllers.tableutils.SubscribedTableCellTest;
 import controllers.tableutils.TimestampTableCellTest;
@@ -24,6 +28,10 @@ import utils.JavaFXThreadingRule;
                 DataUtilsCreationTests.class,
                 DataUtilsIdentificationTests.class,
                 DataUtilsIncorrectNumbersTest.class,
+                CreateTopicDialogValidTest.class,
+                CreateTopicInvalidTest.class,
+                EditTopicValidTest.class,
+                EditTopicInvalidTest.class,
                 ValidTypeValidatorTests.class})
 public class AllTestsSuite {
 
