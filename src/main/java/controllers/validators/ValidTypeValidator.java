@@ -60,6 +60,11 @@ public class ValidTypeValidator extends ValidatorBase {
         }
     }
 
+
+    /**
+     * Verify if the input is a correct port.
+     * @param input The input string value.
+     */
     private void evalInetPortInput(String input) {
         int port;
         try {
@@ -74,6 +79,11 @@ public class ValidTypeValidator extends ValidatorBase {
         }
     }
 
+
+    /**
+     * Verify if the input is a correct IPv4 IPv6, or hostname.
+     * @param input The input string value.
+     */
     private void evalInetAddressInput(String input) {
         try {
             InetAddress.getByName(input);
@@ -82,6 +92,7 @@ public class ValidTypeValidator extends ValidatorBase {
             hasErrors.set(true);
         }
     }
+
 
     /**
      * Evaluates if the input data is a valid boolean value.
@@ -95,6 +106,7 @@ public class ValidTypeValidator extends ValidatorBase {
             hasErrors.set(true);
         }
     }
+
 
     /**
      * Evaluates if the input data is a valid number.
@@ -110,11 +122,11 @@ public class ValidTypeValidator extends ValidatorBase {
         }
     }
 
+
     /**
      * Evaluates if the input data is a correct and not empty String
      * @param input The string to be validated.
      */
-
     private void evalStringInput(String input) {
         if(!"".equals(input)) {
             hasErrors.set(false);
