@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
@@ -19,18 +18,30 @@ import java.io.IOException;
 
 
 /**
- * Created by Gorka Olalde on 2/6/16.
+ * Controller to show the floor plan with all it's devices and
+ * to configure them based in the data stored in the FXML file.
+ * That way, the floor plan can be designed in sceneBuilder
+ * and then the devices corresponding to each control can be added
+ * in the FXML file as control userData.
+ * @author Gorka Olalde
  */
 public class FloorController {
 
     private FXModel model;
     private AnchorPane rootNode;
-    private ColorAdjust colorAdjust = new ColorAdjust();
+    private final ColorAdjust colorAdjust = new ColorAdjust();
 
     private ImageView floorPlan;
 
     private ObservableList<Node> deviceControls;
 
+
+    /**
+     * Initializes the controller by loading the FXML file that contains the view and the related devices to each control.
+     * @param floorFXMLFile The floor plan FXML file.
+     * @return The root node of the view.
+     * @throws IOException If the FXML file can't be loaded.
+     */
     public Node initController(String floorFXMLFile) throws IOException {
         FXMLLoader loader = new FXMLLoader(AppMain.class.getResource(floorFXMLFile));
         rootNode = loader.load();
@@ -39,10 +50,19 @@ public class FloorController {
         return rootNode;
     }
 
+
+    /**
+     * Sets the application model to be used in the controller.
+     * @param model
+     */
     public void setModel(FXModel model) {
         this.model = model;
     }
 
+
+    /**
+     * Initializes the devices contained in the floor plan based on their Control types.
+     */
     private void initDevices() {
         deviceControls = rootNode.getChildren();
         for (Node node : deviceControls) {
@@ -60,6 +80,10 @@ public class FloorController {
         }
     }
 
+    /**
+     * Configures a device that will be shown as a TextField by subscribing it to the corresponding Topic.
+     * @param textField The texfield control to be configured and that contains the device data.
+     */
     private void configureTextDevice(JFXTextField textField) {
         Device device = (Device) textField.getUserData();
         if (device != null) {
@@ -77,6 +101,11 @@ public class FloorController {
         }
     }
 
+    /**
+     * Configures a device that will be shown as a slider in the view. If the device topic is named lightIntensity
+     * it will call the corresponding method to set this particular device.
+     * @param slider The slider to be configured.
+     */
     private void configureSliderDevice(JFXSlider slider) {
         Device device = (Device) slider.getUserData();
         if (device != null) {
@@ -97,6 +126,10 @@ public class FloorController {
         }
     }
 
+    /**
+     * Configures a toggle device that will receive boolean values to be subscribed to the topic and listen to those values.
+     * @param toggleButton The toggle to be configured.
+     */
     private void configureToggleDevice(JFXToggleButton toggleButton) {
         Device device = (Device) toggleButton.getUserData();
         if (device != null) {
@@ -112,6 +145,11 @@ public class FloorController {
         }
     }
 
+
+    /**
+     * Initializes the floor brightness device to set the floor plan image brightness corresponding to the received value.
+     * @param lightTopic The topic to be subscribed to.
+     */
     private void initBrightnessDevice(Topic lightTopic) {
         final int maxSliderRange = 100;
         final int minSliderOutput = 50;
