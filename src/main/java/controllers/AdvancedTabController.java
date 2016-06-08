@@ -79,13 +79,19 @@ public class AdvancedTabController {
         initController();
     }
 
-
+    /**
+     * Initializes the topic table and it's manager.
+     */
     private void initTopicTableManager() {
         tableManager = new TopicTableManager(topicTable);
         tableManager.initialize(model.getTopics());
         selectedItems = tableManager.selectedItemsProperty();
     }
 
+    /**
+     * Initializes the buttons for subscribing, unsubscribing, editin, deleting and creating topics.
+     * Sets their listeners for the selection lists for checking if the button needs to be disabled.
+     */
     private void initButtons() {
         subscribeBtn.setDisable(true);
         unSubscribeBtn.setDisable(true);
@@ -117,6 +123,9 @@ public class AdvancedTabController {
         deleteBtn.setOnAction(e -> deleteSelectedTopics());
     }
 
+    /**
+     * Initializes the listener for the search text field to notify the table manager when it's value changes.
+     */
     private void initSearchField() {
         searchField.textProperty().addListener((o, oldVal, newVal) -> tableManager.search(newVal));
     }
@@ -165,7 +174,9 @@ public class AdvancedTabController {
 
     }
 
-
+    /**
+     * Shows the dialog to edit the selected topic and processes the response in case that is valid.
+     */
     private void editSelectedTopics() {
         Topic selectedTopic;
         if(selectedItems.size() == 1) {
