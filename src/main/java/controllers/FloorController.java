@@ -160,7 +160,6 @@ public class FloorController {
         lightTopic.lastValueProperty().addListener((o, oldVal, newVal) -> {
             Double input = (Double)newVal + minSliderOutput;
             Double mapping = input / maxSliderRange + minBrightnessRange;
-            System.out.println("Mapping: " + mapping);
             colorAdjust.setBrightness(mapping);
         });
     }

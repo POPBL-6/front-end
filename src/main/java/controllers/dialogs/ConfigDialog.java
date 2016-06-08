@@ -28,8 +28,6 @@ public class ConfigDialog extends Dialog<PSPort> {
 
     private static final Logger LOGGER = LogManager.getLogger(ConfigDialog.class);
 
-    private JFXButton saveBtn;
-
     @FXML
     private Label headerLabel;
 
@@ -47,6 +45,8 @@ public class ConfigDialog extends Dialog<PSPort> {
 
     @FXML
     private ValidTypeValidator portValidator;
+
+    private JFXButton saveBtn;
 
     /**
      * Default constructor of the config dialog. Initializes the dialog and all it's components.
