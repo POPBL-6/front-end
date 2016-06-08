@@ -59,6 +59,10 @@ public class CreateTopicDialog extends Dialog<Topic> {
 
     private JFXButton saveBtn;
 
+    /**
+     * Default constructor of the topic creation dialog. Initializes the dialog and all it's components.
+     * @param stage The main stage of the application. Needed to set the modality of the dialog.
+     */
     public CreateTopicDialog(Stage stage) {
         super();
         initOwner(stage);
@@ -72,15 +76,24 @@ public class CreateTopicDialog extends Dialog<Topic> {
         initButtons();
         initComboBox();
         initValidators();
-        setButtonActionHandlers();
+        initResultConverter();
     }
 
+
     /**
-     * Initializes the save and cancel buttons. Sets the save button to a variable for later interaction with it.
+     * Loads the icon to be used in the Dialog title.
+     */
+    private void initHeaderIcon() {
+        headerLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PAPER_PLANE, "54"));
+    }
+
+
+    /**
+     * Initializes the save button.
+     * Sets an action filter to the button to validate the input before submitting.
      */
     private void initButtons() {
         getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
-        JFXButton cancelBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.CANCEL);
         saveBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.OK);
         saveBtn.addEventFilter(EventType.ROOT, event -> {
             if (!topicNameField.validate() || !valueField.validate()) {
@@ -89,20 +102,17 @@ public class CreateTopicDialog extends Dialog<Topic> {
         });
     }
 
+
     /**
      * Sets the dialog pane to the custom JFXDialogPane class which uses JFXButtons instead of the standard buttons.
      * @see JFXDialogPane
      */
-
-    private void initHeaderIcon() {
-        headerLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PAPER_PLANE, "54"));
-    }
-
     private void setDialogPane() {
         JFXDialogPane dialogPane = new JFXDialogPane();
         dialogPane.setDialog(this);
         dialogPaneProperty().set(dialogPane);
     }
+
 
     /**
      * Loads the dialog form from the FXML file and sets it to the DialogPane.
@@ -120,6 +130,7 @@ public class CreateTopicDialog extends Dialog<Topic> {
         }
     }
 
+
     /**
      * Initializes the combobox for choosing between the different topic data types. Exports the currectly selected
      * data type to a variable by using an Invalidation listener.
@@ -132,11 +143,11 @@ public class CreateTopicDialog extends Dialog<Topic> {
         dataTypeCombo.getSelectionModel().select(0);
     }
 
+
     /**
      * Initializes the validators for the topic name and data value.
      * Initializes the validators for checking that a topic name has been entered and that the value is valid.
      */
-
     private void initValidators() {
         nameValidator.setMessage("Please, enter a topic name");
         nameValidator.setIcon(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.WARNING));
@@ -158,10 +169,11 @@ public class CreateTopicDialog extends Dialog<Topic> {
         });
     }
 
+
     /**
-     * Sets the actions for the dialog buttons.
+     * Configures the result converter of the dialog.
      */
-    private void setButtonActionHandlers() {
+    private void initResultConverter() {
         setResultConverter( button -> {
             Topic topic = new Topic();
             if (button == ButtonType.OK) {
@@ -177,14 +189,6 @@ public class CreateTopicDialog extends Dialog<Topic> {
         });
 
     }
-
-    /**
-     * Creates a new object of type x depending on the dataType.
-     * Returns a new object depending of which datatype has been entered and the input value.
-     * @param dataType The type of the data to return.
-     * @param input The input data to be parsed.
-     * @return The object containing the data.
-     */
 
 
 
