@@ -1,12 +1,19 @@
 package model;
 
-import model.datatypes.Topic;
-
 /**
- * Created by Gorka Olalde on 7/6/16.
+ * Class for presenting basic utilities to get
+ * the class of an object in string representation or creater an object from it.
+ * @author Gorka Olalde
  */
 public class DataUtils {
 
+    /**
+     * Creates a new object of type x depending on the dataType.
+     * Returns a new object depending of which datatype has been entered and the input value.
+     * @param dataType The type of the data to return.
+     * @param input The input data to be parsed.
+     * @return The object containing the data.
+     */
     public static Object createObjectByType(String dataType, String input) {
         Object outputObject;
         switch (dataType) {
@@ -29,6 +36,11 @@ public class DataUtils {
         return outputObject;
     }
 
+    /**
+     * Get the simplified object class as an string.
+     * @param dataSample The data to get the type from.
+     * @return The class in simplified string representation.
+     */
     public static String getStringDataType(Object dataSample) {
         if (dataSample instanceof String) {
             return "String";
