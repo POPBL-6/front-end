@@ -21,7 +21,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 /**
- * Created by Gorka Olalde on 7/6/16.
+ * Dialog class to show the application start middleware setup dialog.
+ * @author Gorka Olalde
  */
 public class ConfigDialog extends Dialog<PSPort> {
 
@@ -47,6 +48,9 @@ public class ConfigDialog extends Dialog<PSPort> {
     @FXML
     ValidTypeValidator portValidator;
 
+    /**
+     * Default constructor of the config dialog. Initializes the dialog and all it's components.
+     */
     public ConfigDialog() {
         super();
         setTitle("Please, enter middleware configuration");
@@ -58,11 +62,20 @@ public class ConfigDialog extends Dialog<PSPort> {
         initResultConverter();
     }
 
+
+    /**
+     * Loads the icon to be used in the Dialog title.
+     */
     private void initHeaderIcon() {
         headerLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PLUG, "54"));
 
     }
 
+
+    /**
+     * Initializes the save button.
+     * Sets an action filter to the button to validate the input before submitting.
+     */
     private void initButtons() {
         getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
         saveBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.OK);
@@ -73,11 +86,19 @@ public class ConfigDialog extends Dialog<PSPort> {
         });
     }
 
+
+    /**
+     * Configures the combobox that show the middleware implementation types.
+     */
     private void initComboBox() {
         typeCombo.getItems().addAll("PSPortTCP", "PSPortSSL");
         typeCombo.selectionModelProperty().get().select(0);
     }
 
+
+    /**
+     * Configurates the validators used to validate the address and port inputs.
+     */
     private void initValidators() {
         addressValidator.setMessage("Please, enter a valid address");
         addressValidator.setIcon(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.WARNING));
@@ -100,6 +121,9 @@ public class ConfigDialog extends Dialog<PSPort> {
     }
 
 
+    /**
+     * Sets the dialog pane to the content read from the FXML file and sets this as it;s controller.
+     */
     private void initDialogPane() {
         FXMLLoader loader = new FXMLLoader(AppMain.class.getResource("/fxml/configDialog.fxml"));
         JFXDialogPane dialogPane = new JFXDialogPane();
@@ -113,6 +137,10 @@ public class ConfigDialog extends Dialog<PSPort> {
         dialogPaneProperty().set(dialogPane);
     }
 
+
+    /**
+     * Configures the result converter of the dialog.
+     */
     private void initResultConverter() {
         setResultConverter( button -> {
             PSPort psPort;
