@@ -3,7 +3,6 @@ package controllers;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import model.AppMain;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +13,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * Created by Gorka Olalde on 6/6/16.
+ * Controller that handles a simple interface that is shown when the application initialization fails.
+ * Shows the stacktrace of the exception that has caused the initialization to fail.
+ * @author Gorka Olalde
  */
 public class CrashController {
 
@@ -23,7 +24,11 @@ public class CrashController {
     @FXML
     private JFXTextArea traceArea;
 
-
+    /**
+     * Loads the controller and the FXML file of the view.
+     * @param exception The exception to be shown in the interface.
+     * @return The root node of the view.
+     */
     public Parent loadController(Exception exception) {
         Parent parent = null;
         FXMLLoader loader = new FXMLLoader(AppMain.class.getResource("/fxml/crash.fxml"));
@@ -37,6 +42,10 @@ public class CrashController {
         return parent;
     }
 
+    /**
+     * Parses the stacktrace into a string.
+     * @param e The exception to be parsed.
+     */
     public void loadException(Exception e) {
         final StringWriter stringWriter = new StringWriter();
         final PrintWriter printWriter = new PrintWriter(stringWriter, true);
