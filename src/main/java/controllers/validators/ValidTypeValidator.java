@@ -55,6 +55,7 @@ public class ValidTypeValidator extends ValidatorBase {
                 break;
             case "InetPort":
                 evalInetPortInput(input);
+                break;
             default:
                 evalStringInput(input);
         }
