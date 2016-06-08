@@ -14,6 +14,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
+/**
+ * Main class of the application. Loads the basic resources and shows the GUI.
+ * @author Gorka Olalde
+ */
 public class AppMain extends Application {
 
     private final Logger logger = LogManager.getRootLogger();
@@ -26,6 +30,11 @@ public class AppMain extends Application {
         return stage;
     }
 
+    /**
+     * Overridden start method. Initializes the model, loads the main controller and starts
+     * the application loading process. If an error loading the model occurs, loads the CrashController.
+     * @param primaryStage The main stage of the application
+     */
     @Override
     public void start(Stage primaryStage){
         Parent root;
@@ -58,6 +67,10 @@ public class AppMain extends Application {
         launch(args);
     }
 
+    /**
+     * Initializes the model by first showing a dialog to configure the middleware.
+     * @return The initialization result.
+     */
     private boolean initModel() {
         boolean initializedOK = false;
         model = new FXModel();
