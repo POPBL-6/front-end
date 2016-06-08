@@ -47,7 +47,7 @@ task wrapper(type: Wrapper) {
 
 test {
 	testLogging {
-		events 'started', 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+		events 'passed', 'failed'
 		exceptionFormat = 'full'
     }
     exclude '**/ConfigDialogControllerTest.class'
