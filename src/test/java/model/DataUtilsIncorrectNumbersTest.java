@@ -35,6 +35,4 @@ public class DataUtilsIncorrectNumbersTest {
         DataUtils.createObjectByType(dataType, input);
         fail("Exception not thrown");
     }
-
-
 }
