@@ -16,8 +16,22 @@ import javafx.scene.text.Font;
 public class JFXDialogPane extends DialogPane {
     private Dialog dialog;
 
+    /**
+     * Method to set the dialog that is using this dialog pane.
+     * @param dialog
+     */
     protected void setDialog(Dialog dialog) { this.dialog = dialog; }
 
+
+    /**
+     * Overridden method for creating the buttons of the dialog.
+     * Creates JFXButtons instead of normal buttons.
+     * The JFXButton implementation sets the ButtonType
+     * to it's custom types so a workaround has been used
+     * to call the result converter of the dialog.
+     * @param type Type of button to be created.
+     * @return The Node instance of the created button.
+     */
     @Override
     protected Node createButton(ButtonType type) {
         final JFXButton btn = new JFXButton(type.getText());
@@ -39,6 +53,7 @@ public class JFXDialogPane extends DialogPane {
                 return;
             }
             if (dialog != null) {
+
                 dialog.setResult(dialog.getResultConverter().call(ButtonType.OK));
                 dialog.close();
             }
