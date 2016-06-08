@@ -36,7 +36,7 @@ import static org.powermock.api.easymock.PowerMock.*;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({Callback.class, PSPortTCP.class, PSPortSSL.class, PSPortFactory.class, ConfigDialog.class})
 @PowerMockIgnore({"javax.management.*"})
-public class ConfigDialogControllerTest extends Application{
+public class ConfigDialogControllerTest{
 
     ConfigDialog dialog;
     Label headerLabel;
@@ -47,21 +47,6 @@ public class ConfigDialogControllerTest extends Application{
 
     @Rule
     public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-    }
-
-    @BeforeClass
-    public static void initJFX() {
-        Thread t = new Thread("JavaFX Init Thread") {
-            public void run() {
-                Application.launch(ConfigDialogControllerTest.class, new String[0]);
-            }
-        };
-        t.setDaemon(true);
-        t.start();
-    }
 
     @Before
     public void before() throws NoSuchFieldException, IllegalAccessException {

@@ -27,7 +27,7 @@ import static org.easymock.EasyMock.*;
 /**
  * Created by Gorka Olalde on 30/5/16.
  */
-public class AdvancedTabControllerTest extends Application{
+public class AdvancedTabControllerTest{
 
 
     private AdvancedTabController controller;
@@ -39,23 +39,6 @@ public class AdvancedTabControllerTest extends Application{
 
     @Rule
     public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-
-    }
-
-    @BeforeClass
-    public static void initJFX() {
-        Thread t = new Thread("JavaFX Init Thread") {
-            public void run() {
-                Application.launch(AdvancedTabControllerTest.class, new String[0]);
-            }
-        };
-        t.setDaemon(true);
-        t.start();
-    }
-
 
     @Before
     public void before() throws NoSuchFieldException, IllegalAccessException {
