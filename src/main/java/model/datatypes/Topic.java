@@ -1,9 +1,13 @@
 package model.datatypes;
 
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
- * Created by Gorka Olalde on 18/5/16.
+ * Class where all the Topic information is stored in Properties.
+ * @author Gorka Olalde
  */
 public class Topic{
 
@@ -20,16 +24,26 @@ public class Topic{
     }
 
 
-
+    /**
+     * Constructor to create a topic with it's name as paramenter.
+     * @param name The name to be set.
+     */
     public Topic(String name) {
         this();
         topicName.set(name);
     }
 
+
+    /**
+     * Constructor to create a topic based on it's name and the subscription status.
+     * @param name
+     * @param subscribed
+     */
     public Topic(String name, boolean subscribed) {
         this(name);
         this.subscribed.set(subscribed);
     }
+
     public final SimpleStringProperty topicNameProperty() {
         return topicName;
     }
