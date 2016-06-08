@@ -11,7 +11,8 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 /**
- * Created by Gorka Olalde on 19/5/16.
+ * Controller to load the basic interface and then load all the section controllers from it.
+ * @author Gorka Olalde
  */
 public class MainSceneController {
 
@@ -25,15 +26,26 @@ public class MainSceneController {
     @FXML
     private Tab floor1Tab;
 
+    /**
+     * Sets the model to be used in the Controller.
+     * @param model
+     */
     public void setModel(FXModel model) {
         this.model = model;
     }
 
+    /**
+     * Initializes the all the tabs shown in the interface.
+     */
     public void initTabs() {
         initFloor1Tab();
         initAdvancedViewTab();
     }
 
+    /**
+     * Initializes the tab for the first floor.
+     * //TODO: Make floor tab loading dynamic based on the found fxml floor files.
+     */
     private void initFloor1Tab() {
         String floorFileName = "/fxml/floor1.fxml";
         FloorController floor1Controller = new FloorController();
@@ -45,10 +57,10 @@ public class MainSceneController {
         }
     }
 
-    private void initFloor2Tab() {
-        //TODO: Add floor controller and init method.
-    }
 
+    /**
+     * Initialize the controller of the Advanced Tab and load it.
+     */
     private void initAdvancedViewTab() {
         FXMLLoader loader = new FXMLLoader(AppMain.class.getResource("/fxml/advanced.fxml"));
         try {
