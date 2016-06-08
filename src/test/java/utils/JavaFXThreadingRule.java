@@ -7,6 +7,7 @@ import javax.swing.SwingUtilities;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 
+import javafx.stage.Stage;
 import org.junit.Rule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -88,7 +89,6 @@ public class JavaFXThreadingRule implements TestRule {
                 public void run() {
                     // initializes JavaFX environment
                     new JFXPanel();
-
                     latch.countDown();
                 }
             });

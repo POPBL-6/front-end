@@ -1,4 +1,5 @@
 import controllers.AdvancedTabControllerTest;
+import controllers.FloorControllerTests;
 import controllers.dialogs.CreateTopicDialogValidTest;
 import controllers.dialogs.CreateTopicInvalidTest;
 import controllers.dialogs.EditTopicInvalidTest;
@@ -24,6 +25,7 @@ import utils.JavaFXThreadingRule;
                 SubscribedTableCellTest.class,
                 TimestampTableCellTest.class,
                 AdvancedTabControllerTest.class,
+                FloorControllerTests.class,
                 FXModelTest.class,
                 DataUtilsCreationTests.class,
                 DataUtilsIdentificationTests.class,
