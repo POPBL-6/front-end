@@ -12,9 +12,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import model.datatypes.Topic;
 
-import java.util.ArrayList;
-import java.util.stream.Collectors;
-
 
 /**
  * Class for managing and creating the topic table.
