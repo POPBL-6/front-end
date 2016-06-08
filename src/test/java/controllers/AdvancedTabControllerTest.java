@@ -11,8 +11,10 @@ import model.datatypes.Topic;
 import org.easymock.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import utils.JavaFXThreadingRule;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -33,6 +35,10 @@ public class AdvancedTabControllerTest extends Application{
     private FXModel model;
 
     private TopicTableManager manager;
+
+
+    @Rule
+    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
