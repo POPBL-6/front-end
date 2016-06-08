@@ -1,7 +1,8 @@
 package model.datatypes;
 
 /**
- * Created by Gorka Olalde on 2/6/16.
+ * Simple POJO to store the device data in the FXML files and retrieve it later.
+ * @author Gorka Olalde
  */
 public class Device {
     private String topicName;
