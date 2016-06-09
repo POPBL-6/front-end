@@ -1,16 +1,15 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.application.Application;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.stage.Stage;
 import model.FXModel;
 import model.datatypes.Topic;
-import org.easymock.*;
-import org.junit.*;
-import org.junit.runner.RunWith;
+import org.easymock.Capture;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import utils.JavaFXThreadingRule;
 
 import java.lang.reflect.Field;
@@ -149,6 +148,7 @@ public class AdvancedTabControllerTest{
         //play
         subscribeToSelectionMethod.invoke(controller);
         verify(model);
+        assertTrue(topic.isSubscribed());
     }
 
     @Test

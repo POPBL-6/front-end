@@ -135,7 +135,7 @@ public class EditTopicDialog extends Dialog<Topic> {
      * Initializes the validators for checking that a correct value has been entered on the text field.
      */
     private void initValidators() {
-        if (dataType.equals("Unknown")) {
+        if ("Unknown".equals(dataType)) {
             newValueField.setDisable(true);
         } else {
             valueValidator.setDataType(dataType);

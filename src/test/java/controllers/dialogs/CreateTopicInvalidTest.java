@@ -27,15 +27,15 @@ import static junit.framework.TestCase.assertNull;
 public class CreateTopicInvalidTest {
 
 
-    CreateTopicDialog dialog;
+    private CreateTopicDialog dialog;
 
-    JFXTextField topicNameField;
+    private JFXTextField topicNameField;
 
-    JFXComboBox dataTypeCombo;
+    private JFXComboBox dataTypeCombo;
 
-    JFXTextField valueField;
+    private JFXTextField valueField;
 
-    JFXButton saveBtn;
+    private JFXButton saveBtn;
 
 
 

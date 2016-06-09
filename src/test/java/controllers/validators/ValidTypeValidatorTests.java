@@ -1,10 +1,9 @@
 package controllers.validators;
 
 import com.jfoenix.controls.JFXTextField;
-import controllers.tableutils.DataTypeTableCellTest;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import utils.JavaFXThreadingRule;
 
 import static junit.framework.TestCase.assertFalse;
@@ -15,10 +14,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class ValidTypeValidatorTests{
 
-    ValidTypeValidator validator;
+    private ValidTypeValidator validator;
 
 
-    JFXTextField textField;
+    private JFXTextField textField;
 
     @Rule
     public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();

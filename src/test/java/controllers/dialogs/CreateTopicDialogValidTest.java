@@ -18,7 +18,6 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -28,15 +27,15 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(Parameterized.class)
 public class CreateTopicDialogValidTest {
 
-    CreateTopicDialog dialog;
+    private CreateTopicDialog dialog;
 
-    JFXTextField topicNameField;
+    private JFXTextField topicNameField;
 
-    JFXComboBox dataTypeCombo;
+    private JFXComboBox dataTypeCombo;
 
-    JFXTextField valueField;
+    private JFXTextField valueField;
 
-    JFXButton saveBtn;
+    private JFXButton saveBtn;
 
     @Parameterized.Parameter
     public String topicName;

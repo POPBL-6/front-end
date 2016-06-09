@@ -3,8 +3,6 @@ package controllers;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXToggleButton;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import model.FXModel;

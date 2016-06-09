@@ -25,13 +25,14 @@ import static junit.framework.TestCase.assertNull;
  */
 @RunWith(Parameterized.class)
 public class EditTopicInvalidTest {
-    JFXTextField newValueField;
 
-    JFXButton saveBtn;
+    private JFXTextField newValueField;
 
-    EditTopicDialog dialog;
+    private JFXButton saveBtn;
 
-    Stage stage;
+    private EditTopicDialog dialog;
+
+    private Stage stage;
     @Parameterized.Parameter
     public Topic inputTopic;
 

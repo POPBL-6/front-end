@@ -27,13 +27,14 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(Parameterized.class)
 public class EditTopicValidTest {
 
-    JFXTextField newValueField;
+    private JFXTextField newValueField;
 
-    JFXButton saveBtn;
+    private JFXButton saveBtn;
 
-    EditTopicDialog dialog;
+    private EditTopicDialog dialog;
 
-    Stage stage;
+    private Stage stage;
+
     @Parameterized.Parameter
     public Topic inputTopic;
 

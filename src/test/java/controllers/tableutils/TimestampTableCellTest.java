@@ -1,9 +1,8 @@
 package controllers.tableutils;
 
-import controllers.AdvancedTabControllerTest;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import utils.JavaFXThreadingRule;
 
 import java.text.DateFormat;

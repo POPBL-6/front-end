@@ -32,12 +32,12 @@ import static org.powermock.api.easymock.PowerMock.*;
 @PrepareForTest({Callback.class, PSPortTCP.class, PSPortSSL.class, PSPortFactory.class})
 public class ConfigDialogControllerTest{
 
-    ConfigDialog dialog;
-    Label headerLabel;
-    JFXComboBox typeCombo;
-    JFXTextField addressField;
-    JFXTextField portField;
-    JFXButton saveButton;
+    private ConfigDialog dialog;
+    private Label headerLabel;
+    private JFXComboBox typeCombo;
+    private JFXTextField addressField;
+    private JFXTextField portField;
+    private JFXButton saveButton;
 
     @Rule
     public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
