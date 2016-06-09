@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="418.0" prefWidth="644.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <JFXTextArea fx:id="traceArea" layoutX="19.0" layoutY="161.0" maxWidth="608.0" minWidth="579.0" prefHeight="236.0" prefWidth="608.0" AnchorPane.bottomAnchor="21.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="161.0" />
+      <Label alignment="CENTER" layoutX="92.0" layoutY="51.0" prefHeight="44.0" prefWidth="644.0" text="Oh no! Application chrashed!" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+         <font>
+            <Font name="Arial" size="32.0" />
+         </font>
+      </Label>
+      <Label layoutX="19.0" layoutY="134.0" text="StackTrace:" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="551.0" AnchorPane.topAnchor="134.0" />
+   </children>
+</AnchorPane>

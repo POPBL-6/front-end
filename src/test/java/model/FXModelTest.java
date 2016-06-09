@@ -5,12 +5,10 @@ import data.MessagePublication;
 import data.MessagePublish;
 import model.datatypes.Topic;
 import org.easymock.Capture;
-import org.easymock.EasyMockRunner;
 import org.easymock.Mock;
 import org.easymock.TestSubject;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import utils.ArrayUtils;
 
 import java.io.IOException;
@@ -215,7 +213,6 @@ public class FXModelTest {
         topic.setLastValue(this);
         //record
         middlewareMock.addTopicListener(model);
-        middlewareMock.publish(anyObject());
         replay(middlewareMock);
         //test
         model.initModel(middlewareMock);

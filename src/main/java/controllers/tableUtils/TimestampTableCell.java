@@ -10,6 +10,12 @@ import java.text.DateFormat;
  * @author Gorka Olalde
  */
 public class TimestampTableCell extends TableCell<Topic, Long>{
+
+    /**
+     * Updates the table cell to show the format in a readable way.
+     * @param item The timestamp to be formatted.
+     * @param empty If the cell is empty or not.
+     */
     @Override
     protected void updateItem(Long item, boolean empty) {
         super.updateItem(item, empty);

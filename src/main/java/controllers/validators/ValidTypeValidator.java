@@ -1,8 +1,11 @@
-package controllers.dialogs;
+package controllers.validators;
 
 import com.jfoenix.validation.base.ValidatorBase;
 import javafx.beans.DefaultProperty;
 import javafx.scene.control.TextInputControl;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by Gorka Olalde on 25/5/16.
@@ -39,13 +42,19 @@ public class ValidTypeValidator extends ValidatorBase {
                 evalStringInput(input);
                 break;
             case "Integer":
-                evalNumberInput(input);
+                evalIntegerInput(input);
                 break;
             case "Double":
-                evalNumberInput(input);
+                evalDoubleInput(input);
                 break;
             case "Boolean":
                 evalBooleanInput(input);
+                break;
+            case "InetAddress":
+                evalInetAddressInput(input);
+                break;
+            case "InetPort":
+                evalInetPortInput(input);
                 break;
             default:
                 evalStringInput(input);
@@ -65,13 +74,13 @@ public class ValidTypeValidator extends ValidatorBase {
         }
     }
 
+
     /**
-     * Evaluates if the input data is a valid number.
-     * @param input the number value (Integer or Double) to be validated.
+     * Evaluates if the input data is a valid double.
+     * @param input the double value to be validated.
      */
-    private void evalNumberInput(String input) {
+    private void evalDoubleInput(String input) {
         try {
-            Integer.parseInt(input);
             Double.parseDouble(input);
             hasErrors.set(false);
         } catch (Exception e) {
@@ -79,15 +88,62 @@ public class ValidTypeValidator extends ValidatorBase {
         }
     }
 
+
+    /**
+     * Evaluates if the input data is a valid integer.
+     * @param input the integer value to be validated.
+     */
+    private void evalIntegerInput(String input) {
+        try {
+            Integer.parseInt(input);
+            hasErrors.set(false);
+        } catch (Exception e) {
+            hasErrors.set(true);
+        }
+    }
+
+
     /**
      * Evaluates if the input data is a correct and not empty String
      * @param input The string to be validated.
      */
-
     private void evalStringInput(String input) {
         if(!"".equals(input)) {
             hasErrors.set(false);
         } else {
+            hasErrors.set(true);
+        }
+    }
+
+
+    /**
+     * Verify if the input is a correct port.
+     * @param input The input string value.
+     */
+    private void evalInetPortInput(String input) {
+        int port;
+        try {
+            port = Integer.parseInt(input);
+            if (port > 0 && port < 65534) {
+                hasErrors.set(false);
+            } else {
+                hasErrors.set(true);
+            }
+        } catch (Exception e) {
+            hasErrors.set(true);
+        }
+    }
+
+
+    /**
+     * Verify if the input is a correct IPv4 IPv6, or hostname.
+     * @param input The input string value.
+     */
+    private void evalInetAddressInput(String input) {
+        try {
+            InetAddress.getByName(input);
+            hasErrors.set(false);
+        } catch (UnknownHostException e) {
             hasErrors.set(true);
         }
     }

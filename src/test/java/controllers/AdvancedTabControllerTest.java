@@ -1,18 +1,16 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.application.Application;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.stage.Stage;
 import model.FXModel;
 import model.datatypes.Topic;
-import org.easymock.*;
+import org.easymock.Capture;
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import utils.JavaFXThreadingRule;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -25,7 +23,7 @@ import static org.easymock.EasyMock.*;
 /**
  * Created by Gorka Olalde on 30/5/16.
  */
-public class AdvancedTabControllerTest extends Application{
+public class AdvancedTabControllerTest{
 
 
     private AdvancedTabController controller;
@@ -34,21 +32,9 @@ public class AdvancedTabControllerTest extends Application{
 
     private TopicTableManager manager;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
 
-    }
-
-    @BeforeClass
-    public static void initJFX() {
-        Thread t = new Thread("JavaFX Init Thread") {
-            public void run() {
-                Application.launch(AdvancedTabControllerTest.class, new String[0]);
-            }
-        };
-        t.setDaemon(true);
-        t.start();
-    }
+    @Rule
+    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
 
     @Before
@@ -70,15 +56,19 @@ public class AdvancedTabControllerTest extends Application{
         Field subscribeBtnField = AdvancedTabController.class.getDeclaredField("subscribeBtn");
         Field unsubscribeBtnField = AdvancedTabController.class.getDeclaredField("unSubscribeBtn");
         Field deleteBtnField = AdvancedTabController.class.getDeclaredField("deleteBtn");
+        Field editBtnField = AdvancedTabController.class.getDeclaredField("editBtn");
         Method initButtonsMethod = AdvancedTabController.class.getDeclaredMethod("initButtons");
         subscribeBtnField.setAccessible(true);
         unsubscribeBtnField.setAccessible(true);
+        editBtnField.setAccessible(true);
         deleteBtnField.setAccessible(true);
         initButtonsMethod.setAccessible(true);
 
         JFXButton subscribeBtn = new JFXButton();
         JFXButton unSubscribeBtn = new JFXButton();
+        JFXButton editBtn = new JFXButton();
         JFXButton deleteBtn = new JFXButton();
+
         SimpleBooleanProperty itemsToSubscribe = new SimpleBooleanProperty();
         SimpleBooleanProperty itemsToUnSubscribe = new SimpleBooleanProperty();
         ObservableList<Topic> selectedItems = FXCollections.observableArrayList();
@@ -86,11 +76,12 @@ public class AdvancedTabControllerTest extends Application{
         itemsToUnSubscribe.set(false);
         subscribeBtnField.set(controller, subscribeBtn);
         unsubscribeBtnField.set(controller, unSubscribeBtn);
+        editBtnField.set(controller, editBtn);
         deleteBtnField.set(controller, deleteBtn);
         //record
         expect(manager.hasItemsToSubscribeProperty()).andReturn(itemsToSubscribe);
         expect(manager.hasItemsToUnsubscribeProperty()).andReturn(itemsToUnSubscribe);
-        expect(manager.selectedItemsProperty()).andReturn(selectedItems);
+        expect(manager.selectedItemsProperty()).andReturn(selectedItems).times(2);
         replay(manager);
         //play
         initButtonsMethod.invoke(controller);
@@ -99,13 +90,20 @@ public class AdvancedTabControllerTest extends Application{
         assertTrue(subscribeBtn.isDisabled());
         assertTrue(unSubscribeBtn.isDisabled());
         assertTrue(deleteBtn.isDisabled());
+        assertTrue(deleteBtn.isDisabled());
+
         itemsToSubscribe.set(true);
         assertFalse(subscribeBtn.isDisabled());
+
         itemsToUnSubscribe.set(true);
         assertFalse(unSubscribeBtn.isDisabled());
+
         selectedItems.add(new Topic());
+        assertFalse(editBtn.isDisabled());
         assertFalse(deleteBtn.isDisabled());
+
         selectedItems.clear();
+        assertTrue(editBtn.isDisabled());
         assertTrue(deleteBtn.isDisabled());
     }
 
@@ -150,6 +148,7 @@ public class AdvancedTabControllerTest extends Application{
         //play
         subscribeToSelectionMethod.invoke(controller);
         verify(model);
+        assertTrue(topic.isSubscribed());
     }
 
     @Test

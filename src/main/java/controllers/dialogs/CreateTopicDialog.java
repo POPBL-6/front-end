@@ -4,17 +4,20 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.validation.RequiredFieldValidator;
+import controllers.validators.ValidTypeValidator;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.utils.FontAwesomeIconFactory;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import model.AppMain;
+import model.DataUtils;
 import model.datatypes.Topic;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,29 +33,31 @@ public class CreateTopicDialog extends Dialog<Topic> {
     private static final Logger logger = LogManager.getLogger(CreateTopicDialog.class);
 
     @FXML
-    private
-    JFXTextField topicNameField;
+    private Label headerLabel;
 
     @FXML
-    private
-    RequiredFieldValidator nameValidator;
+    private JFXTextField topicNameField;
 
     @FXML
-    private
-    JFXComboBox<String> dataTypeCombo;
+    private RequiredFieldValidator nameValidator;
 
     @FXML
-    private
-    JFXTextField valueField;
+    private JFXComboBox<String> dataTypeCombo;
 
     @FXML
-    private
-    ValidTypeValidator valueValidator;
+    private JFXTextField valueField;
+
+    @FXML
+    private ValidTypeValidator valueValidator;
 
     private String dataType = "String";
 
     private JFXButton saveBtn;
 
+    /**
+     * Default constructor of the topic creation dialog. Initializes the dialog and all it's components.
+     * @param stage The main stage of the application. Needed to set the modality of the dialog.
+     */
     public CreateTopicDialog(Stage stage) {
         super();
         initOwner(stage);
@@ -61,32 +66,48 @@ public class CreateTopicDialog extends Dialog<Topic> {
         setHeight(350);
         setWidth(400);
         setDialogPane();
-        initButtons();
         initDialogContent();
+        initHeaderIcon();
+        initButtons();
         initComboBox();
         initValidators();
-        setButtonActionHandlers();
+        initResultConverter();
     }
 
+
     /**
-     * Initializes the save and cancel buttons. Sets the save button to a variable for later interaction with it.
+     * Loads the icon to be used in the Dialog title.
+     */
+    private void initHeaderIcon() {
+        headerLabel.setGraphic(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.PAPER_PLANE, "54"));
+    }
+
+
+    /**
+     * Initializes the save button.
+     * Sets an action filter to the button to validate the input before submitting.
      */
     private void initButtons() {
         getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
-        JFXButton cancelBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.CANCEL);
         saveBtn = (JFXButton) getDialogPane().lookupButton(ButtonType.OK);
+        saveBtn.addEventFilter(EventType.ROOT, event -> {
+            if (!topicNameField.validate() || !valueField.validate()) {
+                event.consume();
+            }
+        });
     }
+
 
     /**
      * Sets the dialog pane to the custom JFXDialogPane class which uses JFXButtons instead of the standard buttons.
      * @see JFXDialogPane
      */
-
     private void setDialogPane() {
         JFXDialogPane dialogPane = new JFXDialogPane();
         dialogPane.setDialog(this);
         dialogPaneProperty().set(dialogPane);
     }
+
 
     /**
      * Loads the dialog form from the FXML file and sets it to the DialogPane.
@@ -104,6 +125,7 @@ public class CreateTopicDialog extends Dialog<Topic> {
         }
     }
 
+
     /**
      * Initializes the combobox for choosing between the different topic data types. Exports the currectly selected
      * data type to a variable by using an Invalidation listener.
@@ -116,11 +138,11 @@ public class CreateTopicDialog extends Dialog<Topic> {
         dataTypeCombo.getSelectionModel().select(0);
     }
 
+
     /**
      * Initializes the validators for the topic name and data value.
      * Initializes the validators for checking that a topic name has been entered and that the value is valid.
      */
-
     private void initValidators() {
         nameValidator.setMessage("Please, enter a topic name");
         nameValidator.setIcon(FontAwesomeIconFactory.get().createIcon(FontAwesomeIcon.WARNING));
@@ -140,75 +162,30 @@ public class CreateTopicDialog extends Dialog<Topic> {
                 valueField.validate();
             }
         });
-        valueValidator.hasErrorsProperty().addListener((o, oldVal, newVal) -> {
-            if (newVal || nameValidator.getHasErrors()) {
-                saveBtn.setDisable(true);
-            } else {
-                saveBtn.setDisable(false);
-            }
-        });
     }
 
+
     /**
-     * Sets the actions for the dialog buttons.
+     * Configures the result converter of the dialog.
      */
-    private void setButtonActionHandlers() {
+    private void initResultConverter() {
         setResultConverter( button -> {
             Topic topic = new Topic();
             if (button == ButtonType.OK) {
-                topic.setTopicName(topicNameField.getText());
-                topic.setLastValueTimestamp(System.currentTimeMillis());
-                topic.setLastValue(createObjectByType(dataType, valueField.getText()));
-                return topic;
+                valueValidator.setDataType(dataType);
+                if (topicNameField.validate() && valueField.validate()) {
+                    topic.setTopicName(topicNameField.getText());
+                    topic.setLastValueTimestamp(System.currentTimeMillis());
+                    topic.setLastValue(DataUtils.createObjectByType(dataType, valueField.getText()));
+                    return topic;
+                }
             }
             return null;
         });
-    }
 
-    /**
-     * Creates a new object of type x depending on the dataType.
-     * Returns a new object depending of which datatype has been entered and the input value.
-     * @param dataType The type of the data to return.
-     * @param input The input data to be parsed.
-     * @return The object containing the data.
-     */
-
-    private Object createObjectByType(String dataType, String input) {
-        Object outputObject;
-        switch (dataType) {
-            case "String":
-                outputObject = input;
-                break;
-            case "Integer":
-                outputObject = Integer.parseInt(input);
-                break;
-            case "Double":
-                outputObject = Double.parseDouble(input);
-                break;
-            case "Boolean":
-                outputObject = Boolean.parseBoolean(input);
-                break;
-            default:
-                outputObject = input;
-                break;
-        }
-        return outputObject;
     }
 
 
-    protected void impl_setResultAndClose(ButtonType cmd, boolean close) {
-        Callback<ButtonType, Topic> resultConverter = getResultConverter();
 
-        Topic priorResultValue = getResult();
-        Topic newResultValue = null;
-
-        if (resultConverter != null) {
-            newResultValue = resultConverter.call(cmd);
-        }
-        setResult(newResultValue);
-        if (close && priorResultValue == newResultValue) {
-            close();
-        }
-    }
 }
 

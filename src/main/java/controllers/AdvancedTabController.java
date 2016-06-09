@@ -1,7 +1,9 @@
 package controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
 import controllers.dialogs.CreateTopicDialog;
+import controllers.dialogs.EditTopicDialog;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,7 +32,13 @@ public class AdvancedTabController {
     private FXModel model;
 
     @FXML
+    private JFXTextField searchField;
+
+    @FXML
     private JFXButton subscribeBtn;
+
+    @FXML
+    private JFXButton editBtn;
 
     @FXML
     private JFXButton unSubscribeBtn;
@@ -58,6 +66,7 @@ public class AdvancedTabController {
     private void initController() {
         initTopicTableManager();
         initButtons();
+        initSearchField();
         LOGGER.info("AdvancedTabController initialization finished.");
     }
 
@@ -70,16 +79,23 @@ public class AdvancedTabController {
         initController();
     }
 
-
+    /**
+     * Initializes the topic table and it's manager.
+     */
     private void initTopicTableManager() {
         tableManager = new TopicTableManager(topicTable);
         tableManager.initialize(model.getTopics());
         selectedItems = tableManager.selectedItemsProperty();
     }
 
+    /**
+     * Initializes the buttons for subscribing, unsubscribing, editin, deleting and creating topics.
+     * Sets their listeners for the selection lists for checking if the button needs to be disabled.
+     */
     private void initButtons() {
         subscribeBtn.setDisable(true);
         unSubscribeBtn.setDisable(true);
+        editBtn.setDisable(true);
         deleteBtn.setDisable(true);
         tableManager.hasItemsToSubscribeProperty().addListener((o, oldValue, newValue) -> {
             subscribeBtn.setDisable(!newValue);
@@ -94,11 +110,25 @@ public class AdvancedTabController {
                deleteBtn.setDisable(true);
            }
         });
-                subscribeBtn.setOnAction(e -> subscribeToSelection());
+        tableManager.selectedItemsProperty().addListener((ListChangeListener<Topic>) c -> {
+            if (c.getList().size() == 1) {
+                editBtn.setDisable(false);
+            } else {
+                editBtn.setDisable(true);
+            }
+        });
+        subscribeBtn.setOnAction(e -> subscribeToSelection());
         unSubscribeBtn.setOnAction(e -> unSubscribeFromSelection());
+        editBtn.setOnAction(e -> editSelectedTopics());
         deleteBtn.setOnAction(e -> deleteSelectedTopics());
     }
 
+    /**
+     * Initializes the listener for the search text field to notify the table manager when it's value changes.
+     */
+    private void initSearchField() {
+        searchField.textProperty().addListener((o, oldVal, newVal) -> tableManager.search(newVal));
+    }
 
     /**
      * Subscribe to selection button action handler.
@@ -108,6 +138,7 @@ public class AdvancedTabController {
                 .filter(topic -> !topic.isSubscribed())
                 .collect(Collectors.toCollection(ArrayList::new));
         LOGGER.debug("Subscribed to " + subscribeList.size() + "topics");
+        tableManager.clearTableSelection();
         if (subscribeList.size() > 0) {
             model.subscribe(subscribeList);
         }
@@ -120,6 +151,7 @@ public class AdvancedTabController {
         ArrayList<Topic> unSubscribeList = selectedItems.stream()
                 .filter(topic -> topic.isSubscribed())
                 .collect(Collectors.toCollection(ArrayList::new));
+        tableManager.clearTableSelection();
         LOGGER.debug("Unsubscribed from " + unSubscribeList.size() + " topics");
         if (unSubscribeList.size() > 0) {
             model.unsubscribe(unSubscribeList);
@@ -137,12 +169,29 @@ public class AdvancedTabController {
             if(response !=null) {
                 LOGGER.debug("Dialog response topic received.");
                 model.publish(response);
-            } else {
-                dialog.close();
             }
         });
 
     }
+
+    /**
+     * Shows the dialog to edit the selected topic and processes the response in case that is valid.
+     */
+    private void editSelectedTopics() {
+        Topic selectedTopic;
+        if(selectedItems.size() == 1) {
+            selectedTopic = selectedItems.get(0);
+            EditTopicDialog dialog = new EditTopicDialog(AppMain.getStage(), selectedTopic);
+            dialog.showAndWait().ifPresent(response -> {
+                if(response != null) {
+                    model.publish(selectedTopic);
+                    tableManager.clearTableSelection();
+                }
+            });
+
+        }
+    }
+
 
     /**
      * Delete selected topics button handler.
@@ -154,6 +203,7 @@ public class AdvancedTabController {
         alert.showAndWait().ifPresent(response -> {
             if(response == ButtonType.OK) {
                 model.deleteTopics(selectedItems);
+                tableManager.clearTableSelection();
             }
         });
     }

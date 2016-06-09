@@ -177,5 +177,16 @@ class TopicTableManager {
         });
     }
 
+    public void clearTableSelection() {
+        topicTable.getSelectionModel().clearSelection();
+    }
+
+    public void search(String topic) {
+        topicTable.getSelectionModel().clearSelection();
+        topicList.stream()
+                .filter(s -> s.getTopicName().contains(topic))
+                .forEach(s -> topicTable.getSelectionModel().select(s));
+    }
+
 
 }

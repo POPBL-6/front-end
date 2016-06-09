@@ -1,23 +1,14 @@
 language: java
 sudo: false
 jdk:
-- oraclejdk8
-env:
-  global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "Ln4/Uh5LYaL6TXY6+CLClEtpAhvT8mZzQA6xHdnaneexb5DoAgX+vnNBO0Rbe+vCgPovO7t+ASUhTnXvwT3aviG34ZIynXq5e5bPaeXWRIk0NibQXF8WpTsl6n1HyHDarCVvAnoSqOmIDqczSA7dJU35uGqjJEtxq7xFwhjNUcM+CFKuxqkY821Ylsw5jKt3UKpXt+x5K09rbwSdshUIFyHbIpk55x2r2svLPfbu4i7cG3fbh7j5XYiYGUucJgo1FpqeK+hCgHyN8VJU6J+8vhc3GHYwAqmASVHZY45WvDl0CIevNdCZRhH6P7eL1e+4/QX45DioZBSeIPIS5YjK+6Bl5vrheMXk7Hu5kmucwekwBlN4VyGvEAIEjSKcpOLgC/Q+frGViPj7gHvKAsrgLQAQKSQagDOCaqyLcwGbZIpowQD+tLzM2XvYBBsC7MpwyFxEZuDteGQPq9jzS60nxkrJA+mIfTT2Y8TZ/oJLkkvDODACxIVt2Ed2FVstS88RQmGNTyTaD7mhMqiAUG9OTaCNdt5vk7YmljdFwvtCQUHwDprQEF7h462ZDyIrURT6HV8NtAvDUQQNXBQdW/orXhfjOsb7tpBQkLSQnLGbIvwYvhr/YB3iRVmBpOdLW9DJ9KJneufi6vDcaE59xay4+Q9pIZJUm6Nlh73d5YI2aa0="
+  - oraclejdk8
 
 addons:
   apt:
     packages:
       - oracle-java8-installer
-  coverity_scan:
-    project:
-      name: "POPBL-6/front-end"
-      description: "Build submitted via Travis CI"
-    notification_email: 
-        secure: "L4DeYWQb03VuJqhIiPCBIbQdAjMjHeMOkjuKVnxJ5qHpNlTx4Mun/uQAYwm5MgUhsU6oa2QCdlGlAQHzkBUnuVGV+zdbD78UmQ6qnHFyg85sc3/23uvg+4Alqn3BMJ211PU6fHlCSf/LTryLFYTXFQf5k6K/c03k3NylY46rsRviGSsINXFo6ue5JgW/12OK2rXkp0VjrSO1wyyDy44VOiEnk/GOxHNx1QWDI6lW5MeXyQklZzB2C9HD7mG0FB5lCGE3z2EPvRqZ64I27xdsZkWjPNLEsZTpMW2Lfisa6drDTwLGj+6oyESTIpebMREVjCn5ep8afohahI2ZmMX3akyiVd0YXHKH5/cnr/NMwbcuQf8p2Yw6ZdCxWjFdqRT20MmuhN77BCZRK4Do5XNRHfo/Yz6JcOxsxqW1o6SOiBB5bEvbXvU6D4HWsuszCXyg2GVBWRNrUFoUlfKO3HPU1FXiyFv5OD/92z+XXL3CbJ02ub142WzEJVTeDTNkn50w++9GI3H7JlbCDHTdXoe1vT6DyAhxyvjBnApHeR0aZwfUDsJllGN5eMAJUGz3a+yaGeFDXig01EvO2FB3qtNfXUWEuMs+OvdJeXx7WQdTvWL/7EX36oaTwkk8Y+QcUxGpvsWkYPrGj+YUKq4jEBdvo8kTv257Pg8TvHRZw6/0jyQ="
-    build_command_prepend: "gradle clean"
-    build_command:   "gradle -x test build"
-    branch_pattern: coverity_scan
+
+before_install:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"

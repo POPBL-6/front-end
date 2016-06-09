@@ -1,12 +1,9 @@
 package controllers.tableutils;
 
-import controllers.AdvancedTabControllerTest;
-import javafx.application.Application;
-import javafx.stage.Stage;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import utils.JavaFXThreadingRule;
 
 import java.net.Socket;
 
@@ -17,37 +14,13 @@ import static junit.framework.TestCase.assertEquals;
  */
 
 
-public class DataTypeTableCellTest extends Application{
+public class DataTypeTableCellTest{
 
     private DataTypeTableCell tableCell;
-    private static Thread jfxThread;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
+    @Rule
+    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
-    }
-
-    @BeforeClass
-    public static void initJFX() {
-        jfxThread = new Thread("JavaFX Init Thread") {
-            public void run() {
-                Application.launch(DataTypeTableCellTest.class, new String[0]);
-            }
-        };
-        jfxThread.setDaemon(true);
-        jfxThread.start();
-    }
-
-    @AfterClass
-    public static void stopJFX() {
-        try {
-            jfxThread.interrupt();
-            jfxThread.join(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     @Before
     public void before() {
