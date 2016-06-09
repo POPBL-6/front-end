@@ -48,6 +48,9 @@ public class CreateTopicDialogValidTest {
     @Parameterized.Parameter(value = 3)
     public Object expected;
 
+    @Rule
+    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
+
     @Parameterized.Parameters
     public static Collection inputs() {
         return Arrays.asList(new Object[][]{
@@ -57,8 +60,6 @@ public class CreateTopicDialogValidTest {
                 {"test", 3, "true", true}
         });
     }
-    @Rule
-    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
     @Before
     public void before() throws NoSuchFieldException, IllegalAccessException {

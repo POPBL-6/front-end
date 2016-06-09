@@ -74,10 +74,8 @@ public class FloorController {
                 configureSliderDevice((JFXSlider) node);
             } else if (node instanceof JFXTextField) {
                 configureTextDevice((JFXTextField) node);
-            } else if (node instanceof ImageView) {
-                if (node.getId().equals("floorPlan")) {
-                    floorPlan = (ImageView)node;
-                }
+            } else if (node instanceof ImageView && "floorPlan".equals(node.getId())) {
+                floorPlan = (ImageView)node;
             }
         }
     }

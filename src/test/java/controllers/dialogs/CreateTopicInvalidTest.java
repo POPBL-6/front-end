@@ -47,6 +47,9 @@ public class CreateTopicInvalidTest {
     @Parameterized.Parameter(value = 2)
     public String inputValue;
 
+    @Rule
+    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
+
     @Parameterized.Parameters
     public static Collection inputs() {
         return Arrays.asList(new Object[][]{
@@ -64,9 +67,6 @@ public class CreateTopicInvalidTest {
                 {"", 3, ""},
         });
     }
-
-    @Rule
-    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
 
     @Before

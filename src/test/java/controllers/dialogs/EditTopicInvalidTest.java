@@ -42,6 +42,9 @@ public class EditTopicInvalidTest {
     @Parameterized.Parameter(value = 2)
     public String newValue;
 
+    @Rule
+    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
+
     @Parameterized.Parameters
     public static Collection inputs() {
         return Arrays.asList(new Object[][]{
@@ -52,8 +55,6 @@ public class EditTopicInvalidTest {
                 {new Topic("test"), null, ""}
         });
     }
-    @Rule
-    public JavaFXThreadingRule javafxRule = new JavaFXThreadingRule();
 
     @Before
     public void before() throws NoSuchFieldException, IllegalAccessException {

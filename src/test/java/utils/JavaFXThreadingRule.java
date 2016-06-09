@@ -39,11 +39,11 @@ public class JavaFXThreadingRule implements TestRule {
 
         private final Statement statement;
 
+        private Throwable rethrownException = null;
+
         public OnJFXThreadStatement(Statement aStatement) {
             statement = aStatement;
         }
-
-        private Throwable rethrownException = null;
 
         @Override
         public void evaluate() throws Throwable {

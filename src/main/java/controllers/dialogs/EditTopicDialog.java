@@ -149,11 +149,9 @@ public class EditTopicDialog extends Dialog<Topic> {
      */
     private void initResultConverter() {
         setResultConverter( button -> {
-            if (button == ButtonType.OK) {
-                if (newValueField.validate() && !"Unknown".equals(dataType)) {
-                    topic.setLastValue(DataUtils.createObjectByType(dataType, newValueField.getText()));
-                    return topic;
-                }
+            if (button == ButtonType.OK && newValueField.validate() && !"Unknown".equals(dataType)) {
+                topic.setLastValue(DataUtils.createObjectByType(dataType, newValueField.getText()));
+                return topic;
             }
             return null;
         });

@@ -145,17 +145,15 @@ public class ConfigDialog extends Dialog<PSPort> {
         setResultConverter( button -> {
             PSPort psPort;
             String params;
-            if (button == ButtonType.OK) {
-                if (addressField.validate() && portField.validate()) {
-                    params = typeCombo.getSelectionModel().getSelectedItem();
-                    params += " -a " + addressField.getText();
-                    params += " -p " + portField.getText();
-                    try {
-                        psPort = PSPortFactory.getPort(params);
-                        return psPort;
-                    } catch (Throwable throwable) {
-                        LOGGER.fatal("Couldn't instantiate PSPort class", throwable);
-                    }
+            if (button == ButtonType.OK && addressField.validate() && portField.validate()) {
+                params = typeCombo.getSelectionModel().getSelectedItem();
+                params += " -a " + addressField.getText();
+                params += " -p " + portField.getText();
+                try {
+                    psPort = PSPortFactory.getPort(params);
+                    return psPort;
+                } catch (Throwable throwable) {
+                    LOGGER.fatal("Couldn't instantiate PSPort class", throwable);
                 }
             }
             return null;
