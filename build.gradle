@@ -71,3 +71,16 @@ artifacts {
 	archives sourcesJar
 	archives javadocJar
 }
+
+distributions {
+	main {
+		contents {
+			from(javadocJar) {
+				into "docs"
+			}
+			from(sourcesJar) {
+				into "sources"
+			}
+		}
+	}
+}
